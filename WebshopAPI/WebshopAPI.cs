@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using WebshopAPI.Database;
 using WebshopAPI.Models;
@@ -49,18 +50,28 @@ namespace WebshopAPI
             }
         }
 
-        public void GetCategory(int CategoryId)
+        public List<Book> GetCategory(int categoryId)
         {
+            using (var db = new EFContext())
+            {
+                return db.Books?.Where(b => b.Category.Id == categoryId).OrderBy(n => n.Title).ToList();
+            }
         }
 
-        public void GetAvailableBooks(int CategoryId)
+        public List<Book> GetAvailableBooks(int categoryId)
         {
-            //List of books with amount > 0
+            using (var db = new EFContext())
+            {
+                return db.Books?.Where(b => b.Category.Id == categoryId).Where(a => a.Amount > 0).OrderBy(n => n.Title).ToList();
+            }
         }
 
-        public void GetBook(int bookId)
+        public List<Book> GetBook(int bookId)
         {
-            //Info about book
+            using (var db = new EFContext())
+            {
+                return db.Books?.Where(b => b.Id == bookId).ToList();
+            }
         }
 
         public void GetBooks(string keyword)

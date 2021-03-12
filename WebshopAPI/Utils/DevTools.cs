@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using WebshopAPI.Models;
 
 namespace WebshopAPI.Utils
 {
@@ -17,7 +20,7 @@ namespace WebshopAPI.Utils
                 Console.WriteLine("[1] List categories");
                 Console.WriteLine("[2] Search categories");
                 Console.WriteLine("[3] List books in category");
-                Console.WriteLine("[4] Get available books");
+                Console.WriteLine("[4] Get available books in category");
                 Console.WriteLine("[5] Info about book");
                 Console.WriteLine("[6] Search for book");
                 Console.WriteLine("[7] Search for author\n\n");
@@ -40,24 +43,25 @@ namespace WebshopAPI.Utils
                 switch (choice1)
                 {
                     case 1:
-
-                        api.GetCategories();
+                        ListReader(api.GetCategories());
+                        
                         break;
                     case 2:
                         var choice21 = Console.ReadLine();
-                        api.GetCategories(choice21);
+
+                        ListReader(api.GetCategories(choice21));
                         break;
                     case 3:
                         var choice2 = Convert.ToInt32(Console.ReadLine());
-                        api.GetCategory(choice2);
+                        ListReader(api.GetCategory(choice2));
                         break;
                     case 4:
                         var choice3 = Convert.ToInt32(Console.ReadLine());
-                        api.GetAvailableBooks(choice3);
+                        ListReader(api.GetAvailableBooks(choice3));
                         break;
                     case 5:
                         var choice4 = Convert.ToInt32(Console.ReadLine());
-                        api.GetBook(choice4);
+                        BookReader(api.GetBook(choice4));
                         break;
                     case 6:
                         var choice5 = Console.ReadLine();
@@ -107,12 +111,40 @@ namespace WebshopAPI.Utils
 
 
         }
-        public void ListReader(List<object> list)
+        public void ListReader(List<BookCategory> list)
         {
             foreach (var item in list)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(item.Name);
             }
         }
+        public void ListReader(List<User> list)
+        {
+            foreach (var item in list)
+            {
+                Console.WriteLine(item.Name);
+            }
+        }
+        public void ListReader(List<Book> list)
+        {
+            foreach (var item in list)
+            {
+                Console.WriteLine(item.Title);
+            }
+        }
+        public void BookReader(List<Book> book)
+        {
+            foreach (var item in book)
+            {
+                Console.WriteLine($"Title: {item.Title}");
+                Console.WriteLine($"Author: {item.Author}");
+                Console.WriteLine($"Price: {item.Price}");
+                Console.WriteLine($"Amount: {item.Amount}");
+                Console.WriteLine($"Category: {item.Category.Name}");
+            }
+
+        }
+
+
     }
 }
