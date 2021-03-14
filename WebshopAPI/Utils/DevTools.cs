@@ -221,7 +221,7 @@ namespace WebshopAPI.Utils
                 Console.WriteLine($"Author: {item.Author}");
                 Console.WriteLine($"Price: {item.Price}");
                 Console.WriteLine($"Amount: {item.Amount}");
-                Console.WriteLine($"Category: {item.Category.Name}");
+                Console.WriteLine($"Category: {item.CategoryId}");
                 //TODO: Fix Category issue
             }
 

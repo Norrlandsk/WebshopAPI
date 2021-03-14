@@ -17,7 +17,8 @@ namespace WebshopAPI.Models
         public int Price { get; set; }
         [Required]
         public int Amount { get; set; }
-        public BookCategory Category { get; set; }
+        [Required]
+        public int CategoryId { get; set; }
 
     }
 }

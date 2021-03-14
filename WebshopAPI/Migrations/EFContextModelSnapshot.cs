@@ -33,7 +33,7 @@ namespace WebshopAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<int>("Price")
@@ -44,8 +44,6 @@ namespace WebshopAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Books");
                 });
@@ -76,6 +74,9 @@ namespace WebshopAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
@@ -86,12 +87,10 @@ namespace WebshopAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("SoldBooks");
                 });
@@ -126,27 +125,6 @@ namespace WebshopAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("WebshopAPI.Models.Book", b =>
-                {
-                    b.HasOne("WebshopAPI.Models.BookCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("WebshopAPI.Models.SoldBook", b =>
-                {
-                    b.HasOne("WebshopAPI.Models.User", null)
-                        .WithMany("UserId")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("WebshopAPI.Models.User", b =>
-                {
-                    b.Navigation("UserId");
                 });
 #pragma warning restore 612, 618
         }

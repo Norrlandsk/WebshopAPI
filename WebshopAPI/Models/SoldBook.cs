@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace WebshopAPI.Models
@@ -14,9 +15,12 @@ namespace WebshopAPI.Models
         [Required]
         public string Author { get; set; }
         [Required]
+        public int CategoryId { get; set; }
+        [Required]
         public int Price { get; set; }
         [Required]
         public DateTime PurchaseDate { get; set; }
-        
+        [Required]
+        public int UserId { get; set; }
     }
 }

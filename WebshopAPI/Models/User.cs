@@ -21,7 +21,6 @@ namespace WebshopAPI.Models
         public bool IsActive { get; set; } = true;
         [Required]
         public bool IsAdmin { get; set; } = false;
-        [Required]
-        public List<SoldBook> UserId { get; set; }
+        
     }
 }

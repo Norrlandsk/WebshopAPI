@@ -57,7 +57,7 @@ namespace WebshopAPI.Utils
                         Author = "Clive Barker",
                         Price = 250,
                         Amount = 3,
-                        Category = getBookCategory1
+                        CategoryId = getBookCategory1.Id
                     });
                     var getBookCategory2 = db.BookCategories.FirstOrDefault(c => c.Name == "Horror");
                     db.Books.Add(new Models.Book
@@ -66,7 +66,7 @@ namespace WebshopAPI.Utils
                         Author = "Stephen King",
                         Price = 200,
                         Amount = 2,
-                        Category = getBookCategory2
+                        CategoryId = getBookCategory2.Id
                     });
                     var getBookCategory3 = db.BookCategories.FirstOrDefault(c => c.Name == "Horror");
                     db.Books.Add(new Models.Book
@@ -75,7 +75,7 @@ namespace WebshopAPI.Utils
                         Author = "Stephen King",
                         Price = 200,
                         Amount = 1,
-                        Category = getBookCategory3
+                        CategoryId = getBookCategory3.Id
                     });
                     var getBookCategory4 = db.BookCategories.FirstOrDefault(c => c.Name == "Sci-Fi");
                     db.Books.Add(new Models.Book
@@ -84,7 +84,7 @@ namespace WebshopAPI.Utils
                         Author = "Isaac Asimov",
                         Price = 150,
                         Amount = 4,
-                        Category = getBookCategory4
+                        CategoryId = getBookCategory4.Id
                     });
                 db.SaveChanges();
                 }
