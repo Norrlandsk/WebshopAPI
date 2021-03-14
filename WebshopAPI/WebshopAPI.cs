@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using WebshopAPI.Database;
 using WebshopAPI.Models;
@@ -8,6 +7,8 @@ namespace WebshopAPI
 {
     internal class WebshopAPI
     {
+        #region USER
+
         public int? Login(string userName, string password)
         {
             using (var db = new EFContext())
@@ -19,20 +20,16 @@ namespace WebshopAPI
                 }
                 else return null;
             }
+            //TODO: Add sessiontimer to Login method
         }
 
         public void Logout(int userId)
         {
             //Sets SessionTimer to
             //DateTime.Default
+            //TODO: Create Logout method
         }
 
-        //var categoryList = db.BookCategories;
-
-        //if (categoryList != null)
-        //{
-        //    categoryList.OrderBy(n => n.Name);
-        //}
 
         public List<BookCategory> GetCategories()
         {
@@ -74,20 +71,26 @@ namespace WebshopAPI
             }
         }
 
-        public void GetBooks(string keyword)
+        public List<Book> GetBooks(string keyword)
         {
-            //return matching books
+            using (var db = new EFContext())
+            {
+                return db.Books?.Where(x => x.Title.Contains(keyword)).OrderBy(n => n.Title).ToList();
+            }
         }
 
-        public void GetAuthors(string keyword)
+        public List<Book> GetAuthors(string keyword)
         {
-            //return matching authors
+            using (var db = new EFContext())
+            {
+                return db.Books?.Where(x => x.Author.Contains(keyword)).OrderBy(n => n.Title).ToList();
+            }
         }
 
         public bool BuyBook(int userId, int bookId)
         {
             bool purchasecomplete = true;
-
+            //TODO: Create BuyBook method
             return purchasecomplete;
             //Check Session Timer
             //Fail om user inte finns
@@ -97,6 +100,7 @@ namespace WebshopAPI
 
         public string Ping(int userId)
         {
+            //TODO:Create Ping method
             //“Pong” if customer is online string.empty is customer is offline
             string ping = "";
             return ping;
@@ -104,11 +108,91 @@ namespace WebshopAPI
 
         public bool Register(string name, string password, string passwordverify)
         {
-            bool customercreated = true;
-            //True if user is created
-            //False is user already exist False is password != verify
+            bool userCreated = false;
 
-            return customercreated;
+            using (var db = new EFContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.Name == name);
+                if (user == null && password == passwordverify)
+                {
+                    user = new User { Name = name, Password = password };
+                }
+                if (user != null)
+                {
+                    db.Update(user);
+                    db.SaveChanges();
+                    userCreated = true;
+
+                }
+            }
+            return userCreated;
         }
+
+        #endregion USER
+        #region ADMIN
+        public bool AddBook(int adminId, int id, string title, string author, int price, int amount)
+        {
+            bool isBookAdded = false;
+            return isBookAdded;
+
+            /*Öka book.amount om boken redan  finns, annars sätt book.amount till  antal som skickades in 
+adminId är den inloggade  
+användarens Id
+*/
+        }
+        public void SetAmount(int adminId, int bookId)
+        {
+
+        }
+        public List<User> ListUsers(int adminId)
+        {
+            List<User> userList = new List<User>();
+            return userList;
+        }
+        public List<User> FindUser(int adminId, string keyword)
+        {
+            List<User> userList = new List<User>();
+            return userList;
+        }
+        public bool UpdateBook(int adminId, int id, string title, string author, int price)
+        {
+            bool isBookUpdated = false;
+            return isBookUpdated;
+        }
+        public bool DeleteBook(int adminId, int bookId)
+        {
+            bool isBookDeleted = false;
+            return isBookDeleted;
+        }
+        public bool AddCategory(int adminId, string name)
+        {
+            bool isCategoryCreated = false;
+            return isCategoryCreated;
+        }
+        public bool AddBookToCategory(int adminId, int bookId, int categoryId)
+        {
+            bool isBookAddedToCategory = false;
+            return isBookAddedToCategory;
+        }
+        public bool UpdateCategory(int adminId, int categoryId, string name)
+        {
+            bool isCategoryUpdated = false;
+            return isCategoryUpdated;
+        }
+        public bool DeleteCategory(int adminId, int categoryId)
+        {
+            bool isCategoryDeleted = false;
+            return isCategoryDeleted;
+            //Fails om kategorin inte är tom
+        }
+        public bool AddUser(int adminId, string name, string password)
+        {
+            bool isUserCreated = false;
+            return isUserCreated;
+            //Fails om user redan finns 
+            //Fails om lösenord är tom
+
+        }
+        #endregion ADMIN
     }
 }
