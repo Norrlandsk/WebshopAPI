@@ -1,21 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WebshopAPI.Database;
 using WebshopAPI.Models;
+using WebshopAPI.Utils;
 
 namespace WebshopAPI
 {
     internal class WebshopAPI
     {
         #region USER
-
+        
         public int? Login(string userName, string password)
         {
+            
             using (var db = new EFContext())
             {
                 var user = db.Users.FirstOrDefault(u => u.Name == userName);
                 if (user.Password == password)
                 {
+                    user.SessionTimer=SessionTimer.SetSessionTimer();
+                    user.LastLogin = user.SessionTimer;
+                    db.Update(user);
+                    db.SaveChanges();
                     return user.Id;
                 }
                 else return null;
@@ -25,6 +32,7 @@ namespace WebshopAPI
 
         public void Logout(int userId)
         {
+            
             //Sets SessionTimer to
             //DateTime.Default
             //TODO: Create Logout method

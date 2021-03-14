@@ -1,32 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Timers;
-
 
 namespace WebshopAPI.Utils
 {
-    public class SessionTimer
+    public static class SessionTimer
     {
-
-        public void SetSessionTimer()
+        public static DateTime SetSessionTimer()
         {
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 5000;
-
-            timer.Elapsed += OnTimedEvent;
-            timer.AutoReset = true;
-            timer.Enabled = true;
-
-            Console.WriteLine("Press the Enter key to exit anytime... ");
-            Console.ReadLine();
+            DateTime setTime = DateTime.Now;
+            Console.WriteLine("Login = {0:dd} {0:y}, {0:hh}:{0:mm}:{0:ss} ", setTime);
+            return setTime;
         }
 
-        private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        public static bool CheckSessionTimer(DateTime setTime)
         {
-            Console.WriteLine("Raised: {0}", e.SignalTime);
+            bool isSessionLimitReached = false;
+            DateTime sessionLimit = setTime.AddMinutes(15);
+            DateTime sessionCompare = DateTime.Now;
+
+            var res = DateTime.Compare(sessionCompare, sessionLimit);
+
+            if (res >= 0)
+            {
+                isSessionLimitReached = true;
+                Console.WriteLine("Time is up!");
+            }
+            return isSessionLimitReached;
+            /*<0 − If date1 is earlier than date2
+0 − If date1 is the same as date2
+>0 − If date1 is later than date2*/
         }
     }
 }
-

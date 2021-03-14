@@ -10,12 +10,15 @@ namespace WebshopAPI.Utils
 {
     public class DevTools
     {
+        //SessionTimer sessionTimer = new SessionTimer();
         WebshopAPI api = new WebshopAPI();
         public void Menu()
         {
+            //var login= sessionTimer.SetSessionTimer();
             bool isRunning = true;
             while (isRunning)
             {
+                
                 Console.WriteLine("NO LOGIN REQUIRED\n\n");
                 Console.WriteLine("[1] List categories");
                 Console.WriteLine("[2] Search categories");
@@ -42,7 +45,8 @@ namespace WebshopAPI.Utils
                 Console.WriteLine("[20] Update category");
                 Console.WriteLine("[21] Delete category");
                 Console.WriteLine("[22] Add user");
-                
+                Console.WriteLine("[23] Check sessionTimer");
+
                 var choice0 = Convert.ToInt32(Console.ReadLine());
 
                 switch (choice0)
@@ -161,8 +165,9 @@ namespace WebshopAPI.Utils
                         var choice45= Console.ReadLine();
                         BoolCheck(api.AddUser(choice43,choice44,choice45));
                         break;
-                    case 23:
-                        break;
+                    //case 23:
+                    //    sessionTimer.CheckSessionTimer(login);
+                    //    break;
 
                 }
             }
