@@ -1,13 +1,27 @@
 ﻿using System;
+using System.Linq;
+using WebshopAPI.Database;
+using WebshopAPI.Models;
 
 namespace WebshopAPI.Utils
 {
     public static class SessionTimer
     {
-        public static DateTime SetSessionTimer()
+        public static DateTime SetSessionTimer(int id)
         {
-            DateTime setTime = DateTime.Now;
-            Console.WriteLine("Login = {0:dd} {0:y}, {0:hh}:{0:mm}:{0:ss} ", setTime);
+            DateTime setTime;
+            setTime = DateTime.MaxValue;
+            using (var db = new EFContext())
+            {
+                var user = db.Users?.FirstOrDefault(u => u.Id == id);
+                if (user != null)
+                {
+                    user.SessionTimer = DateTime.Now;
+                    db.Update(user);
+                    db.SaveChanges();
+                    setTime = user.SessionTimer;
+                }
+            }
             return setTime;
         }
 
@@ -28,6 +42,15 @@ namespace WebshopAPI.Utils
             /*<0 − If date1 is earlier than date2
 0 − If date1 is the same as date2
 >0 − If date1 is later than date2*/
+        }
+        public static void AdminSetSessionTimer(int adminId)
+        {
+            using (var db = new EFContext())
+            {
+                var admin = db.Users.FirstOrDefault(i => i.Id == adminId);
+                admin.SessionTimer = SessionTimer.SetSessionTimer(admin.Id);
+
+            }
         }
     }
 }

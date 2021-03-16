@@ -16,9 +16,9 @@ namespace WebshopAPI
             using (var db = new EFContext())
             {
                 var user = db.Users?.FirstOrDefault(u => u.Name == userName);
-                if (user !=null && user.Password == password)
+                if (user != null && user.Password == password)
                 {
-                    user.SessionTimer = SessionTimer.SetSessionTimer();
+                    user.SessionTimer = SessionTimer.SetSessionTimer(user.Id);
                     user.LastLogin = user.SessionTimer;
                     db.Update(user);
                     db.SaveChanges();
@@ -26,7 +26,7 @@ namespace WebshopAPI
                 }
                 else return null;
             }
-            //TODO: Add sessiontimer to Login method
+            
         }
 
         public void Logout(int userId)
@@ -128,6 +128,7 @@ namespace WebshopAPI
                             db.Update(soldBook);
                             db.SaveChanges();
                             isPurchaseSuccessful = true;
+                            user.SessionTimer = SessionTimer.SetSessionTimer(user.Id);
                         }
                     }
                 }
@@ -146,7 +147,7 @@ namespace WebshopAPI
 
         public bool Register(string name, string password, string passwordverify)
         {
-            bool userCreated = false;
+            bool isUserCreated = false;
 
             using (var db = new EFContext())
             {
@@ -156,11 +157,10 @@ namespace WebshopAPI
                     user = new User { Name = name, Password = password };
                     db.Update(user);
                     db.SaveChanges();
-                    userCreated = true;
+                    isUserCreated = true;
                 }
-                
             }
-            return userCreated;
+            return isUserCreated;
         }
 
         #endregion USER
@@ -170,16 +170,40 @@ namespace WebshopAPI
         public bool AddBook(int adminId, int id, string title, string author, int price, int amount)
         {
             bool isBookAdded = false;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var book = db.Books?.FirstOrDefault(i => i.Id == id);
+                    if (book == null)
+                    {
+                        book = new Book();
+                        book.Title = title;
+                        book.Author = author;
+                        book.Price = price;
+                        book.Amount = amount;
+                    }
+                    else if (book != null)
+                    {
+                        book.Amount += amount;
+                    }
+                    SessionTimer.AdminSetSessionTimer(adminId);
+                    db.Update(book);
+                    db.SaveChanges();
+                    isBookAdded = true;
+                }
+            }
+
             return isBookAdded;
 
-            /*Öka book.amount om boken redan  finns, annars sätt book.amount till  antal som skickades in
-adminId är den inloggade
-användarens Id
-*/
         }
 
-        public void SetAmount(int adminId, int bookId)
+        
+
+        public bool SetAmount(int adminId, int bookId, int amount)
         {
+            bool isAmountSet = false;
+            return isAmountSet;
         }
 
         public List<User> ListUsers(int adminId)
