@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using WebshopAPI.Database;
-using WebshopAPI.Models;
 
 namespace WebshopAPI.Utils
 {
@@ -36,20 +35,19 @@ namespace WebshopAPI.Utils
             if (res >= 0)
             {
                 isSessionLimitReached = true;
-                Console.WriteLine("Time is up!");
             }
             return isSessionLimitReached;
             /*<0 − If date1 is earlier than date2
 0 − If date1 is the same as date2
 >0 − If date1 is later than date2*/
         }
+
         public static void AdminSetSessionTimer(int adminId)
         {
             using (var db = new EFContext())
             {
                 var admin = db.Users.FirstOrDefault(i => i.Id == adminId);
-                admin.SessionTimer = SessionTimer.SetSessionTimer(admin.Id);
-
+                admin.SessionTimer = SetSessionTimer(admin.Id);
             }
         }
     }

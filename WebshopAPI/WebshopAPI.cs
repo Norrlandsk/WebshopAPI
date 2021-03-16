@@ -22,11 +22,11 @@ namespace WebshopAPI
                     user.LastLogin = user.SessionTimer;
                     db.Update(user);
                     db.SaveChanges();
+
                     return user.Id;
                 }
                 else return null;
             }
-            
         }
 
         public void Logout(int userId)
@@ -195,63 +195,201 @@ namespace WebshopAPI
             }
 
             return isBookAdded;
-
         }
-
-        
 
         public bool SetAmount(int adminId, int bookId, int amount)
         {
             bool isAmountSet = false;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var book = db.Books?.FirstOrDefault(i => i.Id == bookId);
+                    if (book != null)
+                    {
+                        book.Amount = amount;
+                        SessionTimer.AdminSetSessionTimer(adminId);
+                        db.Update(book);
+                        db.SaveChanges();
+                        isAmountSet = true;
+                    }
+                }
+            }
             return isAmountSet;
         }
 
         public List<User> ListUsers(int adminId)
         {
             List<User> userList = new List<User>();
-            return userList;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    SessionTimer.AdminSetSessionTimer(adminId);
+                    return db.Users?.OrderBy(n => n.Name).ToList();
+                }
+            }
+            else
+            {
+                return userList;
+            }
         }
 
         public List<User> FindUser(int adminId, string keyword)
         {
             List<User> userList = new List<User>();
-            return userList;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    SessionTimer.AdminSetSessionTimer(adminId);
+                    return db.Users?.Where(x => x.Name.Contains(keyword)).OrderBy(n => n.Name).ToList();
+                }
+            }
+            else
+            {
+                return userList;
+            }
         }
 
         public bool UpdateBook(int adminId, int id, string title, string author, int price)
         {
             bool isBookUpdated = false;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var book = db.Books?.FirstOrDefault(x => x.Id == id);
+                    if (book != null)
+                    {
+                        book.Title = title;
+                        book.Author = author;
+                        book.Price = price;
+                        SessionTimer.AdminSetSessionTimer(adminId);
+                        db.Update(book);
+                        db.SaveChanges();
+                        isBookUpdated = true;
+                    }
+                }
+            }
+
             return isBookUpdated;
         }
 
         public bool DeleteBook(int adminId, int bookId)
         {
             bool isBookDeleted = false;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var book = db.Books?.FirstOrDefault(x => x.Id == bookId);
+                    if (book != null)
+                    {
+                    }
+                }
+            }
             return isBookDeleted;
         }
 
         public bool AddCategory(int adminId, string name)
         {
             bool isCategoryCreated = false;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var category = db.BookCategories?.FirstOrDefault(x => x.Name == name);
+
+                    if (category == null)
+                    {
+                        category = new BookCategory();
+                        category.Name = name;
+                        SessionTimer.AdminSetSessionTimer(adminId);
+                        db.Update(category);
+                        db.SaveChanges();
+                        isCategoryCreated = true;
+                    }
+                }
+            }
             return isCategoryCreated;
         }
 
         public bool AddBookToCategory(int adminId, int bookId, int categoryId)
         {
             bool isBookAddedToCategory = false;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var book = db.Books?.FirstOrDefault(b => b.Id == bookId);
+
+                    if (book != null)
+                    {
+                        var category = db.BookCategories?.FirstOrDefault(c => c.Id == categoryId);
+
+                        if (category != null)
+                        {
+                            book.CategoryId = category.Id;
+                            SessionTimer.AdminSetSessionTimer(adminId);
+                            db.Update(category);
+                            db.SaveChanges();
+                            isBookAddedToCategory = true;
+                        }
+                    }
+                }
+            }
             return isBookAddedToCategory;
         }
 
         public bool UpdateCategory(int adminId, int categoryId, string name)
         {
             bool isCategoryUpdated = false;
-            return isCategoryUpdated;
+
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var category = db.BookCategories?.FirstOrDefault(c => c.Id == categoryId);
+
+                    if (category != null)
+                    {
+                        category.Name = name;
+                        SessionTimer.AdminSetSessionTimer(adminId);
+                        db.Update(category);
+                        db.SaveChanges();
+                        isCategoryUpdated = true;
+                    }
+                }
+            }
+
+                    return isCategoryUpdated;
         }
 
         public bool DeleteCategory(int adminId, int categoryId)
         {
             bool isCategoryDeleted = false;
-            return isCategoryDeleted;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var category = db.BookCategories?.FirstOrDefault(c => c.Id == categoryId);
+
+                    if (category != null)
+                    {
+                        var book = db.Books?.FirstOrDefault(c => c.CategoryId == categoryId);
+
+                        if (book == null)
+                        {
+                            SessionTimer.AdminSetSessionTimer(adminId);
+                            db.BookCategories.Remove(category);
+                            db.SaveChanges();
+                            isCategoryDeleted = true;
+                        }
+                    }
+                }
+            }
+                        return isCategoryDeleted;
             //Fails om kategorin inte är tom
         }
 
