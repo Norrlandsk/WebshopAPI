@@ -408,7 +408,7 @@ namespace WebshopAPI
                         user.Name = name;
                         user.Password = password;
 
-                        if (user.Password !="")
+                        if (user.Password != "")
                         {
                             SessionTimer.AdminSetSessionTimer(adminId);
                             db.Update(user);
@@ -420,42 +420,162 @@ namespace WebshopAPI
             }
             return isUserCreated;
         }
+
         #endregion ADMIN
 
         #region ADV ADMIN
-        public List<Book> SoldItems(int adminId)
+
+        public List<SoldBook> SoldItems(int adminId)
         {
-            List<Book> books = new List<Book>();
-            return books;
+            List<SoldBook> bookList = new List<SoldBook>();
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    SessionTimer.AdminSetSessionTimer(adminId);
+                    return db.SoldBooks?.OrderBy(n => n.Title).ToList();
+                }
+            }
+            else
+            {
+                return bookList;
+            }
         }
+
         public int MoneyEarned(int adminId)
         {
             int earned = 0;
-            return earned;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var books = db.SoldBooks?.ToList();
+                    earned = books.Sum(b => b.Price);
+                    SessionTimer.AdminSetSessionTimer(adminId);
+                    return earned;
+                }
+            }
+            else
+            {
+                return earned;
+            }
         }
+
         public string BestCostumer(int adminId)
         {
             string bestCostumer = "";
-            return bestCostumer;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    ////var costumers = db.SoldBooks?.OrderBy);
+                    //var costumer = db.Users?.FirstOrDefault(u => u.Id == costumers);
+                    //bestCostumer = costumer.Name;
+                    //TODO: Fix BestCostumer
+                    SessionTimer.AdminSetSessionTimer(adminId);
+                    return bestCostumer;
+                }
+            }
+            else
+            {
+                return bestCostumer;
+            }
         }
-        public bool Promote(int adminId,int userId)
+
+        public bool Promote(int adminId, int userId)
         {
             bool isPromoted = false;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var user = db.Users?.FirstOrDefault(u => u.Id == userId);
+
+                    if (user != null)
+                    {
+                        user.IsAdmin = true;
+
+                        SessionTimer.AdminSetSessionTimer(adminId);
+                        db.Update(user);
+                        db.SaveChanges();
+
+                        isPromoted = true;
+                    }
+                }
+            }
+
             return isPromoted;
         }
-        public bool Demote(int adminId,int userId)
+
+        public bool Demote(int adminId, int userId)
         {
             bool isDemoted = false;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var user = db.Users?.FirstOrDefault(u => u.Id == userId);
+
+                    if (user != null)
+                    {
+                        user.IsAdmin = false;
+
+                        SessionTimer.AdminSetSessionTimer(adminId);
+                        db.Update(user);
+                        db.SaveChanges();
+
+                        isDemoted = true;
+                    }
+                }
+            }
             return isDemoted;
         }
+
         public bool ActivateUser(int adminId, int userId)
         {
             bool isActivated = false;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var user = db.Users?.FirstOrDefault(u => u.Id == userId);
+
+                    if (user != null)
+                    {
+                        user.IsActive=true;
+
+                        SessionTimer.AdminSetSessionTimer(adminId);
+                        db.Update(user);
+                        db.SaveChanges();
+
+                        isActivated = true;
+                    }
+                }
+            }
             return isActivated;
         }
+
         public bool InactivateUser(int adminId, int userId)
         {
             bool isInactivated = false;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var user = db.Users?.FirstOrDefault(u => u.Id == userId);
+
+                    if (user != null)
+                    {
+                        user.IsActive=false;
+
+                        SessionTimer.AdminSetSessionTimer(adminId);
+                        db.Update(user);
+                        db.SaveChanges();
+
+                        isInactivated = true;
+                    }
+                }
+            }
             return isInactivated;
         }
 

@@ -23,13 +23,14 @@ namespace WebshopAPI.Utils
             return ping;
         }
 
-        public static void CallCounter()
+        public static void CallCounter(int userId)
         {
             int callCount=0;
             callCount++;
             if (callCount == 10)
             {
-
+                Ping(userId);
+                callCount = 0;
             }
 
         }

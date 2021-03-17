@@ -50,7 +50,7 @@ namespace WebshopAPI.Utils
                 Console.WriteLine("[26] Promote");
                 Console.WriteLine("[27] Demote");
                 Console.WriteLine("[28] Activate user");
-                Console.WriteLine("[29] Activate user");
+                Console.WriteLine("[29] Inactivate user");
 
                 var choice0 = Convert.ToInt32(Console.ReadLine());
 
@@ -196,41 +196,41 @@ namespace WebshopAPI.Utils
 
                     case 23:
                         int.TryParse(Console.ReadLine(), out var choice46);
-                        api.SoldItems(choice46);
+                        ListReader(api.SoldItems(choice46));
                         break;
 
                     case 24:
                         int.TryParse(Console.ReadLine(), out var choice47);
-                        api.MoneyEarned(choice47);
+                        Reader(api.MoneyEarned(choice47));
                         break;
 
                     case 25:
                         int.TryParse(Console.ReadLine(), out var choice48);
-                        api.BestCostumer(choice48);
+                        Reader(api.BestCostumer(choice48));
                         break;
 
                     case 26:
                         int.TryParse(Console.ReadLine(), out var choice49);
                         int.TryParse(Console.ReadLine(), out var choice50);
-                        api.Promote(choice49,choice50);
+                        BoolCheck(api.Promote(choice49,choice50));
                         break;
 
                     case 27:
                         int.TryParse(Console.ReadLine(), out var choice51);
                         int.TryParse(Console.ReadLine(), out var choice52);
-                        api.Demote(choice51, choice52);
+                        BoolCheck(api.Demote(choice51, choice52));
                         break;
 
                     case 28:
                         int.TryParse(Console.ReadLine(), out var choice53);
                         int.TryParse(Console.ReadLine(), out var choice54);
-                        api.ActivateUser(choice53, choice54);
+                        BoolCheck(api.ActivateUser(choice53, choice54));
                         break;
 
                     case 29:
                         int.TryParse(Console.ReadLine(), out var choice55);
                         int.TryParse(Console.ReadLine(), out var choice56);
-                        api.InactivateUser(choice55, choice56);
+                        BoolCheck(api.InactivateUser(choice55, choice56));
                         break;
                 }
             }
@@ -264,7 +264,13 @@ namespace WebshopAPI.Utils
                 Console.WriteLine(item.Name);
             }
         }
-
+        public void ListReader(List<SoldBook> list)
+        {
+            foreach (var item in list)
+            {
+                Console.WriteLine(item.Title);
+            }
+        }
         public void ListReader(List<User> list)
         {
             foreach (var item in list)
@@ -292,6 +298,14 @@ namespace WebshopAPI.Utils
                 Console.WriteLine($"Category: {item.CategoryId}");
                 //TODO: Fix Category issue
             }
+        }
+        public void Reader(int value)
+        {
+            Console.WriteLine(value);
+        }
+        public void Reader(string value)
+        {
+            Console.WriteLine(value);
         }
 
         #endregion READER
