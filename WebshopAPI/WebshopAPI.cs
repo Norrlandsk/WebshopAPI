@@ -363,7 +363,7 @@ namespace WebshopAPI
                 }
             }
 
-                    return isCategoryUpdated;
+            return isCategoryUpdated;
         }
 
         public bool DeleteCategory(int adminId, int categoryId)
@@ -389,18 +389,76 @@ namespace WebshopAPI
                     }
                 }
             }
-                        return isCategoryDeleted;
+            return isCategoryDeleted;
             //Fails om kategorin inte är tom
         }
 
         public bool AddUser(int adminId, string name, string password)
         {
             bool isUserCreated = false;
+            if (Security.AdminCheck(adminId))
+            {
+                using (var db = new EFContext())
+                {
+                    var user = db.Users?.FirstOrDefault(u => u.Name == name);
+
+                    if (user == null)
+                    {
+                        user = new User();
+                        user.Name = name;
+                        user.Password = password;
+
+                        if (user.Password !="")
+                        {
+                            SessionTimer.AdminSetSessionTimer(adminId);
+                            db.Update(user);
+                            db.SaveChanges();
+                            isUserCreated = true;
+                        }
+                    }
+                }
+            }
             return isUserCreated;
-            //Fails om user redan finns
-            //Fails om lösenord är tom
+        }
+        #endregion ADMIN
+
+        #region ADV ADMIN
+        public List<Book> SoldItems(int adminId)
+        {
+            List<Book> books = new List<Book>();
+            return books;
+        }
+        public int MoneyEarned(int adminId)
+        {
+            int earned = 0;
+            return earned;
+        }
+        public string BestCostumer(int adminId)
+        {
+            string bestCostumer = "";
+            return bestCostumer;
+        }
+        public bool Promote(int adminId,int userId)
+        {
+            bool isPromoted = false;
+            return isPromoted;
+        }
+        public bool Demote(int adminId,int userId)
+        {
+            bool isDemoted = false;
+            return isDemoted;
+        }
+        public bool ActivateUser(int adminId, int userId)
+        {
+            bool isActivated = false;
+            return isActivated;
+        }
+        public bool InactivateUser(int adminId, int userId)
+        {
+            bool isInactivated = false;
+            return isInactivated;
         }
 
-        #endregion ADMIN
+        #endregion ADV ADMIN
     }
 }

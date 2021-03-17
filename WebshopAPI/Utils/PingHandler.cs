@@ -5,9 +5,9 @@ using WebshopAPI.Database;
 
 namespace WebshopAPI.Utils
 {
-    public static class Ping
+    public static class PingHandler
     {
-        public static string SetPingTimer(int userId)
+        public static string Ping(int userId)
         {
             var ping = string.Empty;
 
@@ -23,22 +23,15 @@ namespace WebshopAPI.Utils
             return ping;
         }
 
-        public static bool CheckPingTimer(DateTime setTime)
+        public static void CallCounter()
         {
-            bool isSessionLimitReached = false;
-            DateTime sessionLimit = setTime.AddMinutes(5);
-            DateTime sessionCompare = DateTime.Now;
-
-            var res = DateTime.Compare(sessionCompare, sessionLimit);
-
-            if (res >= 0)
+            int callCount=0;
+            callCount++;
+            if (callCount == 10)
             {
-                isSessionLimitReached = true;
+
             }
-            return isSessionLimitReached;
-            /*<0 − If date1 is earlier than date2
-0 − If date1 is the same as date2
->0 − If date1 is later than date2*/
+
         }
 
     }
