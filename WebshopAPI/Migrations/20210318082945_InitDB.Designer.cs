@@ -10,8 +10,8 @@ using WebshopAPI.Database;
 namespace WebshopAPI.Migrations
 {
     [DbContext(typeof(EFContext))]
-    [Migration("20210314173347_InitDb1")]
-    partial class InitDb1
+    [Migration("20210318082945_InitDB")]
+    partial class InitDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,6 +58,7 @@ namespace WebshopAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

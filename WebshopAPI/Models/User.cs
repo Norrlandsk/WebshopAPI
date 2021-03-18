@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebshopAPI.Models
@@ -11,16 +11,18 @@ namespace WebshopAPI.Models
 
         [Required]
         public string Name { get; set; }
+
         [Required]
-        public string Password { get; set; } = "Codic2021";
-        [Required]
+        public string Password { get; set; }
+
         public DateTime LastLogin { get; set; }
-        [Required]
+
         public DateTime SessionTimer { get; set; }
-        [Required]
+
+        [DefaultValue(true)]
         public bool IsActive { get; set; } = true;
-        [Required]
+
+        [DefaultValue(false)]
         public bool IsAdmin { get; set; } = false;
-        
     }
 }
