@@ -27,7 +27,7 @@ namespace WebshopAPI.Utils
         public static bool CheckSessionTimer(DateTime setTime)
         {
             bool isSessionLimitReached = false;
-            DateTime sessionLimit = setTime.AddMinutes(15);
+            DateTime sessionLimit = setTime.AddMinutes(2);
             DateTime sessionCompare = DateTime.Now;
 
             var res = DateTime.Compare(sessionCompare, sessionLimit);

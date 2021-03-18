@@ -158,7 +158,8 @@ namespace WebshopAPI.Utils
                     case 17:
                         int.TryParse(Console.ReadLine(), out var choice31);
                         int.TryParse(Console.ReadLine(), out var choice32);
-                        BoolCheck(api.DeleteBook(choice31, choice32));
+                        int.TryParse(Console.ReadLine(), out var amountToDelete);
+                        BoolCheck(api.DeleteBook(choice31, choice32,amountToDelete));
                         break;
 
                     case 18:

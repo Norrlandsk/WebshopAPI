@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using WebshopAPI.Database;
 using WebshopAPI.Models;
@@ -95,6 +96,7 @@ namespace WebshopAPI
         {
             using (var db = new EFContext())
             {
+                
                 return db.Books?.Where(x => x.Author.Contains(keyword)).OrderBy(n => n.Title).ToList();
             }
         }
@@ -127,6 +129,7 @@ namespace WebshopAPI
                             db.Update(book);
                             db.Update(soldBook);
                             db.SaveChanges();
+                            Ping(userId);
                             isPurchaseSuccessful = true;
                             user.SessionTimer = SessionTimer.SetSessionTimer(user.Id);
                         }
@@ -137,11 +140,19 @@ namespace WebshopAPI
             return isPurchaseSuccessful;
         }
 
-        public string Ping(int userId)
+        public static string Ping(int userId)
         {
-            //TODO:Create Ping method
-            //“Pong” if customer is online string.empty is customer is offline
-            string ping = "";
+            var ping = string.Empty;
+
+            using (var db = new EFContext())
+            {
+                var user = db.Users?.FirstOrDefault(u => u.Id == userId);
+                if (user != null && SessionTimer.CheckSessionTimer(user.SessionTimer) == false)
+                {
+                    ping = "Pong";
+                    user.SessionTimer = DateTime.Now;
+                }
+            }
             return ping;
         }
 
@@ -276,7 +287,7 @@ namespace WebshopAPI
             return isBookUpdated;
         }
 
-        public bool DeleteBook(int adminId, int bookId)
+        public bool DeleteBook(int adminId, int bookId, int amount = 0)
         {
             bool isBookDeleted = false;
             if (Security.AdminCheck(adminId))
@@ -286,6 +297,23 @@ namespace WebshopAPI
                     var book = db.Books?.FirstOrDefault(x => x.Id == bookId);
                     if (book != null)
                     {
+                        if (amount == 0)
+                        {
+                            book.Amount--;
+                            db.Update(book);
+                        }
+                        else if (amount > 0)
+                        {
+                            book.Amount -= amount;
+                            db.Update(book);
+                        }
+                        if (book.Amount <= 0)
+                        {
+                            db.Remove(book);
+                        }
+                        db.SaveChanges();
+                        SessionTimer.AdminSetSessionTimer(adminId);
+                        isBookDeleted = true;
                     }
                 }
             }
@@ -408,13 +436,14 @@ namespace WebshopAPI
                         user.Name = name;
                         user.Password = password;
 
-                        if (user.Password != "")
+                        if (user.Password == "")
                         {
-                            SessionTimer.AdminSetSessionTimer(adminId);
-                            db.Update(user);
-                            db.SaveChanges();
-                            isUserCreated = true;
+                            user.Password = "Codic2021";
                         }
+                        SessionTimer.AdminSetSessionTimer(adminId);
+                        db.Update(user);
+                        db.SaveChanges();
+                        isUserCreated = true;
                     }
                 }
             }
@@ -468,10 +497,6 @@ namespace WebshopAPI
             {
                 using (var db = new EFContext())
                 {
-                    ////var costumers = db.SoldBooks?.OrderBy);
-                    //var costumer = db.Users?.FirstOrDefault(u => u.Id == costumers);
-                    //bestCostumer = costumer.Name;
-                    //TODO: Fix BestCostumer
                     SessionTimer.AdminSetSessionTimer(adminId);
                     return bestCostumer;
                 }
@@ -542,7 +567,7 @@ namespace WebshopAPI
 
                     if (user != null)
                     {
-                        user.IsActive=true;
+                        user.IsActive = true;
 
                         SessionTimer.AdminSetSessionTimer(adminId);
                         db.Update(user);
@@ -566,7 +591,7 @@ namespace WebshopAPI
 
                     if (user != null)
                     {
-                        user.IsActive=false;
+                        user.IsActive = false;
 
                         SessionTimer.AdminSetSessionTimer(adminId);
                         db.Update(user);
