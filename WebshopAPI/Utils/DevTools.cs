@@ -25,19 +25,17 @@ namespace WebshopAPI.Utils
             bool isRunning = true;
             while (isRunning)
             {
-                Console.WriteLine("NO LOGIN REQUIRED\n\n");
+                Console.WriteLine("CUSTOMER FUNCTIONS\n\n");
                 Console.WriteLine("[1] List categories");
                 Console.WriteLine("[2] Search categories");
                 Console.WriteLine("[3] List books in category");
                 Console.WriteLine("[4] Get available books in category");
                 Console.WriteLine("[5] Info about book");
                 Console.WriteLine("[6] Search for book");
-                Console.WriteLine("[7] Search for author\n\n");
-
-                Console.WriteLine("LOGIN REQUIRED");
+                Console.WriteLine("[7] Search for author");
                 Console.WriteLine("[8] Login");
                 Console.WriteLine("[9] Logout");
-                Console.WriteLine("[10] Buy book");
+                Console.WriteLine("[10] Buy book (LOGIN REQUIRED)");
                 Console.WriteLine("[11] Register\n\n");
 
                 Console.WriteLine("ADMIN FUNCTIONS\n\n");
@@ -52,8 +50,6 @@ namespace WebshopAPI.Utils
                 Console.WriteLine("[20] Update category");
                 Console.WriteLine("[21] Delete category");
                 Console.WriteLine("[22] Add user");
-
-                Console.WriteLine("ADVANCED ADMIN FUNCTIONS\n\n");
                 Console.WriteLine("[23] List sold books");
                 Console.WriteLine("[24] Money earned");
                 Console.WriteLine("[25] Best customer");
@@ -62,9 +58,9 @@ namespace WebshopAPI.Utils
                 Console.WriteLine("[28] Activate user");
                 Console.WriteLine("[29] Inactivate user");
 
-                int.TryParse(Console.ReadLine(), out var choice0);
+                int.TryParse(Console.ReadLine(), out var menuChoice);
 
-                switch (choice0)
+                switch (menuChoice)
                 {
                     case 1:
                         ListReader(api.GetCategories());
@@ -72,176 +68,254 @@ namespace WebshopAPI.Utils
                         break;
 
                     case 2:
-                        var choice1 = Console.ReadLine();
+                        Console.Write("Keyword:");
+                        var categoryKeyword = Console.ReadLine();
 
-                        ListReader(api.GetCategories(choice1));
+                        ListReader(api.GetCategories(categoryKeyword));
                         break;
 
                     case 3:
-                        int.TryParse(Console.ReadLine(), out var choice2);
-                        ListReader(api.GetCategory(choice2));
+                        Console.Write("Category id:");
+                        int.TryParse(Console.ReadLine(), out var categorychoice);
+                        ListReader(api.GetCategory(categorychoice));
                         break;
 
                     case 4:
-                        int.TryParse(Console.ReadLine(), out var choice3);
-                        ListReader(api.GetAvailableBooks(choice3));
+                        Console.Write("Category id:");
+                        int.TryParse(Console.ReadLine(), out var categoryChoice2);
+                        ListReader(api.GetAvailableBooks(categoryChoice2));
                         break;
 
                     case 5:
-                        int.TryParse(Console.ReadLine(), out var choice4);
-                        BookReader(api.GetBook(choice4));
+                        Console.Write("Book id:");
+                        int.TryParse(Console.ReadLine(), out var bookId);
+                        BookReader(api.GetBook(bookId));
                         break;
 
                     case 6:
-                        var choice5 = Console.ReadLine();
-                        BookReader(api.GetBooks(choice5));
+                        Console.Write("Keyword:");
+                        var bookKeyword = Console.ReadLine();
+                        BookReader(api.GetBooks(bookKeyword));
                         break;
 
                     case 7:
-                        var choice6 = Console.ReadLine();
-                        BookReader(api.GetAuthors(choice6));
+                        Console.Write("Keyword:");
+                        var authorKeyword = Console.ReadLine();
+                        BookReader(api.GetAuthors(authorKeyword));
                         break;
 
                     case 8:
-                        var choice7 = Console.ReadLine();
-                        var choice8 = Console.ReadLine();
-                        LoginCheck(api.Login(choice7, choice8));
+                        Console.Write("Username:");
+                        var username = Console.ReadLine();
+                        Console.Write("Password:");
+                        var password = Console.ReadLine();
+
+                        LoginCheck(api.Login(username, password));
                         break;
 
                     case 9:
-                        int.TryParse(Console.ReadLine(), out var choice9);
-                        api.Logout(choice9);
+                        Console.Write("User Id:");
+                        int.TryParse(Console.ReadLine(), out var userLogout);
+
+                        api.Logout(userLogout);
                         break;
 
                     case 10:
-                        int.TryParse(Console.ReadLine(), out var choice10);
-                        int.TryParse(Console.ReadLine(), out var choice11);
-                        BoolCheck(api.BuyBook(choice10, choice11));
+                        Console.Write("User Id:");
+                        int.TryParse(Console.ReadLine(), out var userBuy);
+                        Console.Write("Book Id:");
+                        int.TryParse(Console.ReadLine(), out var BookBuy);
+
+                        BoolCheck(api.BuyBook(userBuy, BookBuy));
                         break;
 
                     case 11:
-                        var choice12 = Console.ReadLine();
-                        var choice13 = Console.ReadLine();
-                        var choice14 = Console.ReadLine();
+                        Console.Write("User name:");
+                        var userReg = Console.ReadLine();
+                        Console.Write("Password:");
+                        var passReg = Console.ReadLine();
+                        Console.Write("Verify password:");
+                        var passVer = Console.ReadLine();
 
-                        BoolCheck(api.Register(choice12, choice13, choice14));
+                        BoolCheck(api.Register(userReg, passReg, passVer));
                         break;
 
                     case 12:
-                        int.TryParse(Console.ReadLine(), out var choice15);
-                        int.TryParse(Console.ReadLine(), out var choice16);
-                        var choice17 = Console.ReadLine();
-                        var choice18 = Console.ReadLine();
-                        int.TryParse(Console.ReadLine(), out var choice19);
-                        int.TryParse(Console.ReadLine(), out var choice20);
-                        BoolCheck(api.AddBook(choice15, choice16, choice17, choice18, choice19, choice20));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminAddBook);
+                        Console.Write("Book Id:");
+                        int.TryParse(Console.ReadLine(), out var idAdbook);
+                        Console.Write("Title:");
+                        var titleAddBook = Console.ReadLine();
+                        Console.Write("Author:");
+                        var authorAddBook = Console.ReadLine();
+                        Console.Write("Price:");
+                        int.TryParse(Console.ReadLine(), out var priceAddBook);
+                        Console.Write("Amount:");
+                        int.TryParse(Console.ReadLine(), out var amountAddBook);
+                       
+                        BoolCheck(api.AddBook(adminAddBook, idAdbook, titleAddBook, authorAddBook, priceAddBook, amountAddBook));
                         break;
 
                     case 13:
-                        int.TryParse(Console.ReadLine(), out var choice21);
-                        int.TryParse(Console.ReadLine(), out var choice22);
-                        var amount = Convert.ToInt32(Console.ReadLine());
-                        BoolCheck(api.SetAmount(choice21, choice22, amount));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminSetAmount);
+                        Console.Write("Book Id:");
+                        int.TryParse(Console.ReadLine(), out var bookSetAmount);
+                        Console.Write("Amount:");
+                        var amountSetAmount = Convert.ToInt32(Console.ReadLine());
+
+                        BoolCheck(api.SetAmount(adminSetAmount, bookSetAmount, amountSetAmount));
                         break;
 
                     case 14:
-                        int.TryParse(Console.ReadLine(), out var choice23);
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdListUsers);
 
-                        ListReader(api.ListUsers(choice23));
+                        ListReader(api.ListUsers(adminIdListUsers));
                         break;
 
                     case 15:
-                        int.TryParse(Console.ReadLine(), out var choice24);
-                        var choice25 = Console.ReadLine();
-                        ListReader(api.FindUser(choice24, choice25));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdFindUser);
+                        Console.Write("Keyword:");
+                        var keywordFindUser = Console.ReadLine();
+
+                        ListReader(api.FindUser(adminIdFindUser, keywordFindUser));
                         break;
 
                     case 16:
-                        int.TryParse(Console.ReadLine(), out var choice26);
-                        int.TryParse(Console.ReadLine(), out var choice27);
-                        var choice28 = Console.ReadLine();
-                        var choice29 = Console.ReadLine();
-                        int.TryParse(Console.ReadLine(), out var choice30);
-                        BoolCheck(api.UpdateBook(choice26, choice27, choice28, choice29, choice30));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdUpdateBook);
+                        Console.Write("Book Id:");
+                        int.TryParse(Console.ReadLine(), out var bookIdUpdateBook);
+                        Console.Write("Title:");
+                        var titleUpdateBook = Console.ReadLine();
+                        Console.Write("Author:");
+                        var authorUpdateBook = Console.ReadLine();
+                        Console.Write("Price:");
+                        int.TryParse(Console.ReadLine(), out var priceUpdateBook);
+
+                        BoolCheck(api.UpdateBook(adminIdUpdateBook, bookIdUpdateBook, titleUpdateBook, authorUpdateBook, priceUpdateBook));
                         break;
 
                     case 17:
-                        int.TryParse(Console.ReadLine(), out var choice31);
-                        int.TryParse(Console.ReadLine(), out var choice32);
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdDeleteBook);
+                        Console.Write("Book Id:");
+                        int.TryParse(Console.ReadLine(), out var bookIdDeleteBook);
+                        Console.Write("Amount:");
                         int.TryParse(Console.ReadLine(), out var amountToDelete);
-                        BoolCheck(api.DeleteBook(choice31, choice32, amountToDelete));
+
+                        BoolCheck(api.DeleteBook(adminIdDeleteBook, bookIdDeleteBook, amountToDelete));
                         break;
 
                     case 18:
-                        int.TryParse(Console.ReadLine(), out var choice33);
-                        var choice34 = Console.ReadLine();
-                        BoolCheck(api.AddCategory(choice33, choice34));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdAddCategory);
+                        Console.Write("Category name:");
+                        var categoryAddCategegory = Console.ReadLine();
+
+                        BoolCheck(api.AddCategory(adminIdAddCategory, categoryAddCategegory));
                         break;
 
                     case 19:
-                        int.TryParse(Console.ReadLine(), out var choice35);
-                        int.TryParse(Console.ReadLine(), out var choice36);
-                        int.TryParse(Console.ReadLine(), out var choice37);
-                        BoolCheck(api.AddBookToCategory(choice35, choice36, choice37));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdAddBookToCat);
+                        Console.Write("Book Id:");
+                        int.TryParse(Console.ReadLine(), out var bookIdAddBookToCat);
+                        Console.Write("Category Id:");
+                        int.TryParse(Console.ReadLine(), out var catIdAddBookToCat);
+
+                        BoolCheck(api.AddBookToCategory(adminIdAddBookToCat, bookIdAddBookToCat, catIdAddBookToCat));
                         break;
 
                     case 20:
-                        int.TryParse(Console.ReadLine(), out var choice38);
-                        int.TryParse(Console.ReadLine(), out var choice39);
-                        var choice40 = Console.ReadLine();
-                        BoolCheck(api.UpdateCategory(choice38, choice39, choice40));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdUpdateCat);
+                        Console.Write("Category Id:");
+                        int.TryParse(Console.ReadLine(), out var catIdUpdateCat);
+                        Console.Write("Name:");
+                        var nameUpdateCat = Console.ReadLine();
+
+                        BoolCheck(api.UpdateCategory(adminIdUpdateCat, catIdUpdateCat, nameUpdateCat));
                         break;
 
                     case 21:
-                        int.TryParse(Console.ReadLine(), out var choice41);
-                        int.TryParse(Console.ReadLine(), out var choice42);
-                        BoolCheck(api.DeleteCategory(choice41, choice42));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdDeleteCat);
+                        Console.Write("Category Id:");
+                        int.TryParse(Console.ReadLine(), out var catIdDeleteCat);
+
+                        BoolCheck(api.DeleteCategory(adminIdDeleteCat, catIdDeleteCat));
                         break;
 
                     case 22:
-                        int.TryParse(Console.ReadLine(), out var choice43);
-                        var choice44 = Console.ReadLine();
-                        var choice45 = Console.ReadLine();
-                        BoolCheck(api.AddUser(choice43, choice44, choice45));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdAddUser);
+                        Console.Write("User name:");
+                        var nameAddUser = Console.ReadLine();
+                        Console.Write("Password:");
+                        var passAddUser = Console.ReadLine();
+
+                        BoolCheck(api.AddUser(adminIdAddUser, nameAddUser, passAddUser));
                         break;
 
                     case 23:
-                        int.TryParse(Console.ReadLine(), out var choice46);
-                        ListReader(api.SoldItems(choice46));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdSoldItems);
+
+                        ListReader(api.SoldItems(adminIdSoldItems));
                         break;
                         
                     case 24:
-                        int.TryParse(Console.ReadLine(), out var choice47);
-                        Reader(api.MoneyEarned(choice47));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdMoneyEarned);
+
+                        Reader(api.MoneyEarned(adminIdMoneyEarned));
                         break;
 
                     case 25:
-                        int.TryParse(Console.ReadLine(), out var choice48);
-                        Reader(api.BestCostumer(choice48));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdBestCostumer);
+
+                        Reader(api.BestCostumer(adminIdBestCostumer));
                         break;
 
                     case 26:
-                        int.TryParse(Console.ReadLine(), out var choice49);
-                        int.TryParse(Console.ReadLine(), out var choice50);
-                        BoolCheck(api.Promote(choice49, choice50));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdPromote);
+                        Console.Write("User Id:");
+                        int.TryParse(Console.ReadLine(), out var userIdPromote);
+
+                        BoolCheck(api.Promote(adminIdPromote, userIdPromote));
                         break;
 
                     case 27:
-                        int.TryParse(Console.ReadLine(), out var choice51);
-                        int.TryParse(Console.ReadLine(), out var choice52);
-                        BoolCheck(api.Demote(choice51, choice52));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdDemote);
+                        Console.Write("User Id:");
+                        int.TryParse(Console.ReadLine(), out var userIdDemote);
+
+                        BoolCheck(api.Demote(adminIdDemote, userIdDemote));
                         break;
 
                     case 28:
-                        int.TryParse(Console.ReadLine(), out var choice53);
-                        int.TryParse(Console.ReadLine(), out var choice54);
-                        BoolCheck(api.ActivateUser(choice53, choice54));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdActUser);
+                        Console.Write("User Id:");
+                        int.TryParse(Console.ReadLine(), out var userIdActUser);
+
+                        BoolCheck(api.ActivateUser(adminIdActUser, userIdActUser));
                         break;
 
                     case 29:
-                        int.TryParse(Console.ReadLine(), out var choice55);
-                        int.TryParse(Console.ReadLine(), out var choice56);
-                        BoolCheck(api.InactivateUser(choice55, choice56));
+                        Console.Write("Admin Id:");
+                        int.TryParse(Console.ReadLine(), out var adminIdInactUser);
+                        Console.Write("User Id:");
+                        int.TryParse(Console.ReadLine(), out var userIdInactUser);
+
+                        BoolCheck(api.InactivateUser(adminIdInactUser, userIdInactUser));
                         break;
                 }
             }
