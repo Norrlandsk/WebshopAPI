@@ -7,15 +7,19 @@ using WebshopAPI.Utils;
 
 namespace WebshopAPI
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class WebshopAPI
     {
         #region USER
+
         /// <summary>
-        /// Logins user, fails if user does not exist, if password does not match, if user.IsActive=false
+        /// Login user
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="password"></param>
-        /// <returns>int userId if successful, null int if unsuccessful</returns>
+        /// <returns>int</returns>
         public int? Login(string userName, string password)
         {
             using (var db = new EFContext())
@@ -34,6 +38,10 @@ namespace WebshopAPI
             }
         }
 
+        /// <summary>
+        /// Logout user
+        /// </summary>
+        /// <param name="userId"></param>
         public void Logout(int userId)
         {
             using (var db = new EFContext())
@@ -48,6 +56,10 @@ namespace WebshopAPI
             }
         }
 
+        /// <summary>
+        /// Gets query result of book category(s).
+        /// </summary>
+        /// <returns>List<BookCategory></returns>
         public List<BookCategory> GetCategories()
         {
             using (var db = new EFContext())
@@ -56,6 +68,11 @@ namespace WebshopAPI
             }
         }
 
+        /// <summary>
+        /// Gets query result of book category(s) matching parameter keyword.
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns>List<BookCategory></returns>
         public List<BookCategory> GetCategories(string keyword)
         {
             using (var db = new EFContext())
@@ -64,6 +81,11 @@ namespace WebshopAPI
             }
         }
 
+        /// <summary>
+        /// Gets query result of book(s) matching parameter categoryId.
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns>List<Book></returns>
         public List<Book> GetCategory(int categoryId)
         {
             using (var db = new EFContext())
@@ -72,6 +94,11 @@ namespace WebshopAPI
             }
         }
 
+        /// <summary>
+        /// Gets query result of book(s) matching parameter categoryId where book.Amount>0.
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns>List<Book></returns>
         public List<Book> GetAvailableBooks(int categoryId)
         {
             using (var db = new EFContext())
@@ -80,6 +107,11 @@ namespace WebshopAPI
             }
         }
 
+        /// <summary>
+        /// Gets query result of book matching parameter bookId.
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns>List<Book></returns>
         public List<Book> GetBook(int bookId)
         {
             using (var db = new EFContext())
@@ -88,6 +120,11 @@ namespace WebshopAPI
             }
         }
 
+        /// <summary>
+        /// Gets query result of book(s) matching parameter keyword.
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns>List<Book></returns>
         public List<Book> GetBooks(string keyword)
         {
             using (var db = new EFContext())
@@ -96,6 +133,11 @@ namespace WebshopAPI
             }
         }
 
+        /// <summary>
+        /// Gets query result of book(s) where book.Author matches parameter keyword.
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns>List<Book></returns>
         public List<Book> GetAuthors(string keyword)
         {
             using (var db = new EFContext())
@@ -104,6 +146,12 @@ namespace WebshopAPI
             }
         }
 
+        /// <summary>
+        /// User buys book
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="bookId"></param>
+        /// <returns>bool</returns>
         public bool BuyBook(int userId, int bookId)
         {
             bool isPurchaseSuccessful = false;
@@ -143,6 +191,11 @@ namespace WebshopAPI
             return isPurchaseSuccessful;
         }
 
+        /// <summary>
+        ///Sends ping to server
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>string</returns>
         public static string Ping(int userId)
         {
             var ping = string.Empty;
@@ -159,6 +212,13 @@ namespace WebshopAPI
             return ping;
         }
 
+        /// <summary>
+        /// Registers new user
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
+        /// <param name="passwordverify"></param>
+        /// <returns>bool</returns>
         public bool Register(string name, string password, string passwordverify)
         {
             bool isUserCreated = false;
@@ -180,7 +240,16 @@ namespace WebshopAPI
         #endregion USER
 
         #region ADMIN
-
+        /// <summary>
+        /// Adds new book
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="id"></param>
+        /// <param name="title"></param>
+        /// <param name="author"></param>
+        /// <param name="price"></param>
+        /// <param name="amount"></param>
+        /// <returns>bool</returns>
         public bool AddBook(int adminId, int id, string title, string author, int price, int amount)
         {
             bool isBookAdded = false;
@@ -210,7 +279,13 @@ namespace WebshopAPI
 
             return isBookAdded;
         }
-
+        /// <summary>
+        /// Sets amount of book
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="bookId"></param>
+        /// <param name="amount"></param>
+        /// <returns>bool</returns>
         public bool SetAmount(int adminId, int bookId, int amount)
         {
             bool isAmountSet = false;
@@ -231,7 +306,11 @@ namespace WebshopAPI
             }
             return isAmountSet;
         }
-
+        /// <summary>
+        /// Lists user(s) in database
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <returns>List</returns>
         public List<User> ListUsers(int adminId)
         {
             List<User> userList = new List<User>();
@@ -248,7 +327,12 @@ namespace WebshopAPI
                 return userList;
             }
         }
-
+        /// <summary>
+        /// Lists user(s) matching keyword
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="keyword"></param>
+        /// <returns>List</returns>
         public List<User> FindUser(int adminId, string keyword)
         {
             List<User> userList = new List<User>();
@@ -265,7 +349,15 @@ namespace WebshopAPI
                 return userList;
             }
         }
-
+        /// <summary>
+        /// Updates properties of book
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="id"></param>
+        /// <param name="title"></param>
+        /// <param name="author"></param>
+        /// <param name="price"></param>
+        /// <returns>bool</returns>
         public bool UpdateBook(int adminId, int id, string title, string author, int price)
         {
             bool isBookUpdated = false;
@@ -289,7 +381,13 @@ namespace WebshopAPI
 
             return isBookUpdated;
         }
-
+        /// <summary>
+        /// Deletes book from table
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="bookId"></param>
+        /// <param name="amount"></param>
+        /// <returns>bool</returns>
         public bool DeleteBook(int adminId, int bookId, int amount = 0)
         {
             bool isBookDeleted = false;
@@ -322,7 +420,12 @@ namespace WebshopAPI
             }
             return isBookDeleted;
         }
-
+        /// <summary>
+        /// Adds category to table
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="name"></param>
+        /// <returns>bool</returns>
         public bool AddCategory(int adminId, string name)
         {
             bool isCategoryCreated = false;
@@ -345,7 +448,13 @@ namespace WebshopAPI
             }
             return isCategoryCreated;
         }
-
+        /// <summary>
+        /// Adds categoryId to book
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="bookId"></param>
+        /// <param name="categoryId"></param>
+        /// <returns>bool</returns>
         public bool AddBookToCategory(int adminId, int bookId, int categoryId)
         {
             bool isBookAddedToCategory = false;
@@ -372,7 +481,13 @@ namespace WebshopAPI
             }
             return isBookAddedToCategory;
         }
-
+        /// <summary>
+        /// Updates category
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="categoryId"></param>
+        /// <param name="name"></param>
+        /// <returns>bool</returns>
         public bool UpdateCategory(int adminId, int categoryId, string name)
         {
             bool isCategoryUpdated = false;
@@ -396,7 +511,12 @@ namespace WebshopAPI
 
             return isCategoryUpdated;
         }
-
+        /// <summary>
+        /// Deletes category from table
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="categoryId"></param>
+        /// <returns>bool</returns>
         public bool DeleteCategory(int adminId, int categoryId)
         {
             bool isCategoryDeleted = false;
@@ -421,9 +541,15 @@ namespace WebshopAPI
                 }
             }
             return isCategoryDeleted;
-            //Fails om kategorin inte är tom
+         
         }
-
+        /// <summary>
+        /// Adds new user to database
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="name"></param>
+        /// <param name="password"></param>
+        /// <returns>bool</returns>
         public bool AddUser(int adminId, string name, string password)
         {
             bool isUserCreated = false;
@@ -454,7 +580,11 @@ namespace WebshopAPI
         #endregion ADMIN
 
         #region ADV ADMIN
-
+        /// <summary>
+        /// Lists sold book(s)
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <returns>List</returns>
         public List<SoldBook> SoldItems(int adminId)
         {
             List<SoldBook> bookList = new List<SoldBook>();
@@ -471,7 +601,11 @@ namespace WebshopAPI
                 return bookList;
             }
         }
-
+        /// <summary>
+        /// Calculates sum of price of sold book(s)
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <returns>int</returns>
         public int? MoneyEarned(int adminId)
         {
             int? earned = null;
@@ -490,7 +624,11 @@ namespace WebshopAPI
                 return earned;
             }
         }
-
+        /// <summary>
+        /// Gets customer who bought most books
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <returns>string</returns>
         public string BestCostumer(int adminId)
         {
             string bestCostumer = "";
@@ -507,7 +645,12 @@ namespace WebshopAPI
                 return bestCostumer;
             }
         }
-
+        /// <summary>
+        /// Gives user administrator privileges
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="userId"></param>
+        /// <returns>bool</returns>
         public bool Promote(int adminId, int userId)
         {
             bool isPromoted = false;
@@ -532,7 +675,12 @@ namespace WebshopAPI
 
             return isPromoted;
         }
-
+        /// <summary>
+        /// Revokes user's administrator privileges
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="userId"></param>
+        /// <returns>bool</returns>
         public bool Demote(int adminId, int userId)
         {
             bool isDemoted = false;
@@ -556,7 +704,12 @@ namespace WebshopAPI
             }
             return isDemoted;
         }
-
+        /// <summary>
+        /// Activates user
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="userId"></param>
+        /// <returns>bool</returns>
         public bool ActivateUser(int adminId, int userId)
         {
             bool isActivated = false;
@@ -580,7 +733,12 @@ namespace WebshopAPI
             }
             return isActivated;
         }
-
+        /// <summary>
+        /// Inactivates user
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <param name="userId"></param>
+        /// <returns>bool</returns>
         public bool InactivateUser(int adminId, int userId)
         {
             bool isInactivated = false;

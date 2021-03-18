@@ -1,21 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using WebshopAPI.Utils;
+﻿using WebshopAPI.Utils;
 
 namespace WebshopAPI
 {
-
+    /// <summary>
+    /// Class for handling objects for starting application
+    /// </summary>
     public static class Startup
     {
+        /// <summary>
+        /// Sets up Seeder for use in Main()
+        /// </summary>
         public static void InitialiseSeed()
         {
             Seed.Seeder();
         }
-       public static void InitialiseDatabase()
+
+        /// <summary>
+        /// Sets up DatabaseCreator for use in Main()
+        /// </summary>
+        public static void InitialiseDatabase()
         {
             Database.DatabaseCreator.Create();
         }
-        
     }
 }

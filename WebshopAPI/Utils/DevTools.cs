@@ -4,12 +4,22 @@ using WebshopAPI.Models;
 
 namespace WebshopAPI.Utils
 {
+    /// <summary>
+    /// Class used by developer to test functionality
+    /// </summary>
     public static class DevTools
     {
         #region MENU
 
+        /// <summary>
+        /// WebshopAPI object for use in menu switch
+        /// </summary>
         private static WebshopAPI api = new WebshopAPI();
 
+        /// <summary>
+        /// Prints menu to console, switch for choosing menu alternative.
+        /// Only for developer use
+        /// </summary>
         public static void Menu()
         {
             bool isRunning = true;
@@ -159,7 +169,7 @@ namespace WebshopAPI.Utils
                         int.TryParse(Console.ReadLine(), out var choice31);
                         int.TryParse(Console.ReadLine(), out var choice32);
                         int.TryParse(Console.ReadLine(), out var amountToDelete);
-                        BoolCheck(api.DeleteBook(choice31, choice32,amountToDelete));
+                        BoolCheck(api.DeleteBook(choice31, choice32, amountToDelete));
                         break;
 
                     case 18:
@@ -199,7 +209,7 @@ namespace WebshopAPI.Utils
                         int.TryParse(Console.ReadLine(), out var choice46);
                         ListReader(api.SoldItems(choice46));
                         break;
-
+                        
                     case 24:
                         int.TryParse(Console.ReadLine(), out var choice47);
                         Reader(api.MoneyEarned(choice47));
@@ -213,7 +223,7 @@ namespace WebshopAPI.Utils
                     case 26:
                         int.TryParse(Console.ReadLine(), out var choice49);
                         int.TryParse(Console.ReadLine(), out var choice50);
-                        BoolCheck(api.Promote(choice49,choice50));
+                        BoolCheck(api.Promote(choice49, choice50));
                         break;
 
                     case 27:
@@ -241,6 +251,10 @@ namespace WebshopAPI.Utils
 
         #region READER
 
+        /// <summary>
+        /// Prints value of bool
+        /// </summary>
+        /// <param name="boolcheck"></param>
         private static void BoolCheck(bool boolcheck)
         {
             if (boolcheck == true)
@@ -252,12 +266,18 @@ namespace WebshopAPI.Utils
                 Console.WriteLine("False");
             }
         }
-
+        /// <summary>
+        /// Prints userId, nullable
+        /// </summary>
+        /// <param name="userId"></param>
         private static void LoginCheck(int? userId)
         {
             Console.WriteLine(userId);
         }
-
+        /// <summary>
+        /// Prints content of List of type BookCategory
+        /// </summary>
+        /// <param name="list"></param>
         private static void ListReader(List<BookCategory> list)
         {
             foreach (var item in list)
@@ -265,6 +285,10 @@ namespace WebshopAPI.Utils
                 Console.WriteLine(item.Name);
             }
         }
+        /// <summary>
+        /// Prints content of List of type SoldBook
+        /// </summary>
+        /// <param name="list"></param>
         private static void ListReader(List<SoldBook> list)
         {
             foreach (var item in list)
@@ -272,6 +296,10 @@ namespace WebshopAPI.Utils
                 Console.WriteLine(item.Title);
             }
         }
+        /// <summary>
+        /// Prints content of List of type User
+        /// </summary>
+        /// <param name="list"></param>
         private static void ListReader(List<User> list)
         {
             foreach (var item in list)
@@ -279,7 +307,10 @@ namespace WebshopAPI.Utils
                 Console.WriteLine(item.Name);
             }
         }
-
+        /// <summary>
+        /// Prints content of List of type Book
+        /// </summary>
+        /// <param name="list"></param>
         private static void ListReader(List<Book> list)
         {
             foreach (var item in list)
@@ -287,8 +318,9 @@ namespace WebshopAPI.Utils
                 Console.WriteLine(item.Title);
             }
         }
+
         /// <summary>
-        /// 
+        /// Prints property values of object type Book in List of type Book
         /// </summary>
         /// <param name="book"></param>
         private static void BookReader(List<Book> book)
@@ -303,14 +335,19 @@ namespace WebshopAPI.Utils
                 //TODO: Fix Category issue
             }
         }
+
         /// <summary>
-        /// 
+        /// Prints int value, nullable
         /// </summary>
         /// <param name="value"></param>
         private static void Reader(int? value)
         {
             Console.WriteLine(value);
         }
+        /// <summary>
+        /// Prints string value
+        /// </summary>
+        /// <param name="value"></param>
         private static void Reader(string value)
         {
             Console.WriteLine(value);

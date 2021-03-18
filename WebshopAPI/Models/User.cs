@@ -1,9 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebshopAPI.Models
 {
+    /// <summary>
+    /// Model class for User table
+    /// </summary>
     public class User
     {
         [Key]

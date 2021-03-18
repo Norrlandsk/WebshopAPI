@@ -3,8 +3,16 @@ using WebshopAPI.Database;
 
 namespace WebshopAPI.Utils
 {
+    /// <summary>
+    /// Class for security measures
+    /// </summary>
     public static class Security
     {
+        /// <summary>
+        /// Verifies if user have administrator privileges
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>bool</returns>
         public static bool AdminCheck(int userId)
         {
             bool isUserAdmin = false;

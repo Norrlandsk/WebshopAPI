@@ -6,8 +6,14 @@ using System.Linq;
 
 namespace WebshopAPI.Utils
 {
+    /// <summary>
+    /// Class for creating seed(s)
+    /// </summary>
     public static class Seed
     {
+        /// <summary>
+        /// Generates data in tables for testing purposes
+        /// </summary>
         public static void Seeder()
         {
             

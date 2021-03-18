@@ -5,6 +5,9 @@ using System.Text;
 
 namespace WebshopAPI.Models
 {
+    /// <summary>
+    /// Model class for BookCategory table
+    /// </summary>
     public class BookCategory
     {
         [Key]

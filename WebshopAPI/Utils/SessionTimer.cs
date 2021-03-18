@@ -4,8 +4,16 @@ using WebshopAPI.Database;
 
 namespace WebshopAPI.Utils
 {
+    /// <summary>
+    /// Class for handling SessionTimer
+    /// </summary>
     public static class SessionTimer
     {
+        /// <summary>
+        /// Sets user's session timer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>DateTime</returns>
         public static DateTime SetSessionTimer(int id)
         {
             DateTime setTime;
@@ -24,6 +32,11 @@ namespace WebshopAPI.Utils
             return setTime;
         }
 
+        /// <summary>
+        /// Controls if user's session timer have reached its limit
+        /// </summary>
+        /// <param name="setTime"></param>
+        /// <returns>bool</returns>
         public static bool CheckSessionTimer(DateTime setTime)
         {
             bool isSessionLimitReached = false;
@@ -39,6 +52,10 @@ namespace WebshopAPI.Utils
             return isSessionLimitReached;
         }
 
+        /// <summary>
+        /// Sets administrator's session timer
+        /// </summary>
+        /// <param name="adminId"></param>
         public static void AdminSetSessionTimer(int adminId)
         {
             using (var db = new EFContext())
