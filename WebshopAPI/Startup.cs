@@ -5,13 +5,14 @@ using WebshopAPI.Utils;
 
 namespace WebshopAPI
 {
-    public class Startup
+
+    public static class Startup
     {
-        public void InitialiseSeed()
+        public static void InitialiseSeed()
         {
             Seed.Seeder();
         }
-       public void InitialiseDatabase()
+       public static void InitialiseDatabase()
         {
             Database.DatabaseCreator.Create();
         }

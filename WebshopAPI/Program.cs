@@ -1,23 +1,14 @@
-﻿using System;
-using WebshopAPI.Database;
-using WebshopAPI.Utils;
+﻿using WebshopAPI.Utils;
 
 namespace WebshopAPI
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            DevTools menu = new DevTools();
-            Startup startup = new Startup();
-            
-            startup.InitialiseDatabase();
-            startup.InitialiseSeed();
-            var db = new EFContext();
-            db.SaveChanges();
-            
-            
-            menu.Menu();
+            Startup.InitialiseDatabase();
+            Startup.InitialiseSeed();
+            DevTools.Menu();
         }
     }
 }

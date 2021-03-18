@@ -10,8 +10,8 @@ using WebshopAPI.Database;
 namespace WebshopAPI.Migrations
 {
     [DbContext(typeof(EFContext))]
-    [Migration("20210318093147_Test")]
-    partial class Test
+    [Migration("20210318141757_InitDB")]
+    partial class InitDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -19,10 +19,8 @@ namespace WebshopAPI.Models
 
         public DateTime SessionTimer { get; set; }
 
-        [DefaultValue(true)]
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
 
-        [DefaultValue(false)]
-        public bool IsAdmin { get; set; } = false;
+        public bool IsAdmin { get; set; }
     }
 }

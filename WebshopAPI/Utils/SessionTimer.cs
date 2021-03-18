@@ -27,7 +27,7 @@ namespace WebshopAPI.Utils
         public static bool CheckSessionTimer(DateTime setTime)
         {
             bool isSessionLimitReached = false;
-            DateTime sessionLimit = setTime.AddMinutes(2);
+            DateTime sessionLimit = setTime.AddMinutes(15);
             DateTime sessionCompare = DateTime.Now;
 
             var res = DateTime.Compare(sessionCompare, sessionLimit);
@@ -37,9 +37,6 @@ namespace WebshopAPI.Utils
                 isSessionLimitReached = true;
             }
             return isSessionLimitReached;
-            /*<0 − If date1 is earlier than date2
-0 − If date1 is the same as date2
->0 − If date1 is later than date2*/
         }
 
         public static void AdminSetSessionTimer(int adminId)

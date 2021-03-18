@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace WebshopAPI.Utils
 {
-    public class Seed
+    public static class Seed
     {
         public static void Seeder()
         {
@@ -19,13 +19,16 @@ namespace WebshopAPI.Utils
                     {
                         Name = "Administrator",
                         Password = "Codicrulez",
-                        IsAdmin = true
-                    });
+                        IsAdmin = true,
+                        IsActive = true
+                    }) ;
                     db.Users.Add(new Models.User
                     {
                         Name = "TestCostumer",
-                        Password = "Codic2021"
-                    });
+                        Password = "Codic2021",
+                        IsAdmin = false,
+                        IsActive = true
+                    }) ;
                     db.SaveChanges();
                 }
                 if (!db.BookCategories.Any())

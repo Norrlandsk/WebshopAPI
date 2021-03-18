@@ -4,13 +4,13 @@ using WebshopAPI.Models;
 
 namespace WebshopAPI.Utils
 {
-    public class DevTools
+    public static class DevTools
     {
         #region MENU
 
-        private WebshopAPI api = new WebshopAPI();
+        private static WebshopAPI api = new WebshopAPI();
 
-        public void Menu()
+        public static void Menu()
         {
             bool isRunning = true;
             while (isRunning)
@@ -52,7 +52,7 @@ namespace WebshopAPI.Utils
                 Console.WriteLine("[28] Activate user");
                 Console.WriteLine("[29] Inactivate user");
 
-                var choice0 = Convert.ToInt32(Console.ReadLine());
+                int.TryParse(Console.ReadLine(), out var choice0);
 
                 switch (choice0)
                 {
@@ -131,7 +131,7 @@ namespace WebshopAPI.Utils
                         int.TryParse(Console.ReadLine(), out var choice21);
                         int.TryParse(Console.ReadLine(), out var choice22);
                         var amount = Convert.ToInt32(Console.ReadLine());
-                        api.SetAmount(choice21, choice22, amount);
+                        BoolCheck(api.SetAmount(choice21, choice22, amount));
                         break;
 
                     case 14:
@@ -241,7 +241,7 @@ namespace WebshopAPI.Utils
 
         #region READER
 
-        public void BoolCheck(bool boolcheck)
+        private static void BoolCheck(bool boolcheck)
         {
             if (boolcheck == true)
             {
@@ -253,26 +253,26 @@ namespace WebshopAPI.Utils
             }
         }
 
-        public void LoginCheck(int? userId)
+        private static void LoginCheck(int? userId)
         {
             Console.WriteLine(userId);
         }
 
-        public void ListReader(List<BookCategory> list)
+        private static void ListReader(List<BookCategory> list)
         {
             foreach (var item in list)
             {
                 Console.WriteLine(item.Name);
             }
         }
-        public void ListReader(List<SoldBook> list)
+        private static void ListReader(List<SoldBook> list)
         {
             foreach (var item in list)
             {
                 Console.WriteLine(item.Title);
             }
         }
-        public void ListReader(List<User> list)
+        private static void ListReader(List<User> list)
         {
             foreach (var item in list)
             {
@@ -280,15 +280,18 @@ namespace WebshopAPI.Utils
             }
         }
 
-        public void ListReader(List<Book> list)
+        private static void ListReader(List<Book> list)
         {
             foreach (var item in list)
             {
                 Console.WriteLine(item.Title);
             }
         }
-
-        public void BookReader(List<Book> book)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="book"></param>
+        private static void BookReader(List<Book> book)
         {
             foreach (var item in book)
             {
@@ -300,11 +303,15 @@ namespace WebshopAPI.Utils
                 //TODO: Fix Category issue
             }
         }
-        public void Reader(int value)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        private static void Reader(int? value)
         {
             Console.WriteLine(value);
         }
-        public void Reader(string value)
+        private static void Reader(string value)
         {
             Console.WriteLine(value);
         }

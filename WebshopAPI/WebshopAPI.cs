@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using WebshopAPI.Database;
 using WebshopAPI.Models;
@@ -11,13 +10,18 @@ namespace WebshopAPI
     internal class WebshopAPI
     {
         #region USER
-
+        /// <summary>
+        /// Logins user, fails if user does not exist, if password does not match, if user.IsActive=false
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns>int userId if successful, null int if unsuccessful</returns>
         public int? Login(string userName, string password)
         {
             using (var db = new EFContext())
             {
                 var user = db.Users?.FirstOrDefault(u => u.Name == userName);
-                if (user != null && user.Password == password)
+                if (user != null && user.Password == password && user.IsActive)
                 {
                     user.SessionTimer = SessionTimer.SetSessionTimer(user.Id);
                     user.LastLogin = user.SessionTimer;
@@ -96,7 +100,6 @@ namespace WebshopAPI
         {
             using (var db = new EFContext())
             {
-                
                 return db.Books?.Where(x => x.Author.Contains(keyword)).OrderBy(n => n.Title).ToList();
             }
         }
@@ -163,9 +166,9 @@ namespace WebshopAPI
             using (var db = new EFContext())
             {
                 var user = db.Users.FirstOrDefault(u => u.Name == name);
-                if (user == null && password == passwordverify)
+                if (user == null && password == passwordverify && password != "")
                 {
-                    user = new User { Name = name, Password = password };
+                    user = new User { Name = name, Password = password, IsAdmin = false, IsActive = true };
                     db.Update(user);
                     db.SaveChanges();
                     isUserCreated = true;
@@ -185,7 +188,7 @@ namespace WebshopAPI
             {
                 using (var db = new EFContext())
                 {
-                    var book = db.Books?.FirstOrDefault(i => i.Id == id);
+                    var book = db.Books?.FirstOrDefault(i => i.Title == title);
                     if (book == null)
                     {
                         book = new Book();
@@ -432,9 +435,7 @@ namespace WebshopAPI
 
                     if (user == null)
                     {
-                        user = new User();
-                        user.Name = name;
-                        user.Password = password;
+                        user = new User { Name = name, Password = password, IsAdmin = false, IsActive = true };
 
                         if (user.Password == "")
                         {
@@ -471,9 +472,9 @@ namespace WebshopAPI
             }
         }
 
-        public int MoneyEarned(int adminId)
+        public int? MoneyEarned(int adminId)
         {
-            int earned = 0;
+            int? earned = null;
             if (Security.AdminCheck(adminId))
             {
                 using (var db = new EFContext())
