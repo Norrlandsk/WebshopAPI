@@ -153,7 +153,7 @@ namespace WebshopAPI.Utils
                         int.TryParse(Console.ReadLine(), out var priceAddBook);
                         Console.Write("Amount:");
                         int.TryParse(Console.ReadLine(), out var amountAddBook);
-                       
+
                         BoolCheck(api.AddBook(adminAddBook, idAdbook, titleAddBook, authorAddBook, priceAddBook, amountAddBook));
                         break;
 
@@ -267,7 +267,7 @@ namespace WebshopAPI.Utils
 
                         ListReader(api.SoldItems(adminIdSoldItems));
                         break;
-                        
+
                     case 24:
                         Console.Write("Admin Id:");
                         int.TryParse(Console.ReadLine(), out var adminIdMoneyEarned);
@@ -279,7 +279,7 @@ namespace WebshopAPI.Utils
                         Console.Write("Admin Id:");
                         int.TryParse(Console.ReadLine(), out var adminIdBestCostumer);
 
-                        Reader(api.BestCostumer(adminIdBestCostumer));
+                        UserReader(api.BestCostumer(adminIdBestCostumer));
                         break;
 
                     case 26:
@@ -320,13 +320,37 @@ namespace WebshopAPI.Utils
                 }
             }
         }
+        /// <summary>
+        /// Prints property values of Book object
+        /// </summary>
+        /// <param name="book"></param>
+        private static void BookReader(Book book)
+        {
+            if (book != null)
+            {
+            Console.WriteLine(book.Title);
+            Console.WriteLine(book.Author);
+            Console.WriteLine(book.Price);
+            Console.WriteLine(book.CategoryId);
+
+            }
+        }
+
+        /// <summary>
+        /// Prints Name property value of User object
+        /// </summary>
+        /// <param name="user"></param>
+        private static void UserReader(User user)
+        {
+            Console.WriteLine(user.Name);
+        }
 
         #endregion MENU
 
         #region READER
 
         /// <summary>
-        /// Prints value of bool
+        /// Prints value of bool for test purposes
         /// </summary>
         /// <param name="boolcheck"></param>
         private static void BoolCheck(bool boolcheck)
@@ -340,6 +364,7 @@ namespace WebshopAPI.Utils
                 Console.WriteLine("False");
             }
         }
+
         /// <summary>
         /// Prints userId, nullable
         /// </summary>
@@ -348,6 +373,7 @@ namespace WebshopAPI.Utils
         {
             Console.WriteLine(userId);
         }
+
         /// <summary>
         /// Prints content of List of type BookCategory
         /// </summary>
@@ -359,6 +385,7 @@ namespace WebshopAPI.Utils
                 Console.WriteLine(item.Name);
             }
         }
+
         /// <summary>
         /// Prints content of List of type SoldBook
         /// </summary>
@@ -370,6 +397,7 @@ namespace WebshopAPI.Utils
                 Console.WriteLine(item.Title);
             }
         }
+
         /// <summary>
         /// Prints content of List of type User
         /// </summary>
@@ -381,6 +409,7 @@ namespace WebshopAPI.Utils
                 Console.WriteLine(item.Name);
             }
         }
+
         /// <summary>
         /// Prints content of List of type Book
         /// </summary>
@@ -418,6 +447,7 @@ namespace WebshopAPI.Utils
         {
             Console.WriteLine(value);
         }
+
         /// <summary>
         /// Prints string value
         /// </summary>

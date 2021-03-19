@@ -64,5 +64,27 @@ namespace WebshopAPI.Utils
                 admin.SessionTimer = SetSessionTimer(admin.Id);
             }
         }
+
+        public static bool AdminCheckSessionTimer(int adminId)
+        {
+            bool isSessionLimitReached = false;
+            using (var db = new EFContext())
+            {
+                var admin = db.Users?.FirstOrDefault(u => u.Id == adminId);
+                if (admin != null)
+                {
+                    DateTime sessionLimit = admin.SessionTimer.AddMinutes(1);
+                    DateTime sessionCompare = DateTime.Now;
+
+                    var res = DateTime.Compare(sessionCompare, sessionLimit);
+
+                    if (res >= 0)
+                    {
+                        isSessionLimitReached = true;
+                    }
+                }
+            }
+            return isSessionLimitReached;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebshopAPI.Database;
@@ -8,7 +9,7 @@ using WebshopAPI.Utils;
 namespace WebshopAPI
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     internal class WebshopAPI
     {
@@ -112,11 +113,13 @@ namespace WebshopAPI
         /// </summary>
         /// <param name="bookId"></param>
         /// <returns>List<Book></returns>
-        public List<Book> GetBook(int bookId)
+        public Book GetBook(int bookId)
         {
             using (var db = new EFContext())
             {
-                return db.Books?.Where(b => b.Id == bookId).ToList();
+                
+               return (Book)(db.Books?.FirstOrDefault(b => b.Id == bookId));
+                
             }
         }
 
@@ -240,6 +243,7 @@ namespace WebshopAPI
         #endregion USER
 
         #region ADMIN
+
         /// <summary>
         /// Adds new book
         /// </summary>
@@ -253,7 +257,7 @@ namespace WebshopAPI
         public bool AddBook(int adminId, int id, string title, string author, int price, int amount)
         {
             bool isBookAdded = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId)==false)
             {
                 using (var db = new EFContext())
                 {
@@ -279,6 +283,7 @@ namespace WebshopAPI
 
             return isBookAdded;
         }
+
         /// <summary>
         /// Sets amount of book
         /// </summary>
@@ -289,7 +294,7 @@ namespace WebshopAPI
         public bool SetAmount(int adminId, int bookId, int amount)
         {
             bool isAmountSet = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -306,6 +311,7 @@ namespace WebshopAPI
             }
             return isAmountSet;
         }
+
         /// <summary>
         /// Lists user(s) in database
         /// </summary>
@@ -314,7 +320,7 @@ namespace WebshopAPI
         public List<User> ListUsers(int adminId)
         {
             List<User> userList = new List<User>();
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -327,6 +333,7 @@ namespace WebshopAPI
                 return userList;
             }
         }
+
         /// <summary>
         /// Lists user(s) matching keyword
         /// </summary>
@@ -336,7 +343,7 @@ namespace WebshopAPI
         public List<User> FindUser(int adminId, string keyword)
         {
             List<User> userList = new List<User>();
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -349,6 +356,7 @@ namespace WebshopAPI
                 return userList;
             }
         }
+
         /// <summary>
         /// Updates properties of book
         /// </summary>
@@ -361,7 +369,7 @@ namespace WebshopAPI
         public bool UpdateBook(int adminId, int id, string title, string author, int price)
         {
             bool isBookUpdated = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -381,6 +389,7 @@ namespace WebshopAPI
 
             return isBookUpdated;
         }
+
         /// <summary>
         /// Deletes book from table
         /// </summary>
@@ -391,7 +400,7 @@ namespace WebshopAPI
         public bool DeleteBook(int adminId, int bookId, int amount = 0)
         {
             bool isBookDeleted = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -420,6 +429,7 @@ namespace WebshopAPI
             }
             return isBookDeleted;
         }
+
         /// <summary>
         /// Adds category to table
         /// </summary>
@@ -429,7 +439,7 @@ namespace WebshopAPI
         public bool AddCategory(int adminId, string name)
         {
             bool isCategoryCreated = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -448,6 +458,7 @@ namespace WebshopAPI
             }
             return isCategoryCreated;
         }
+
         /// <summary>
         /// Adds categoryId to book
         /// </summary>
@@ -458,7 +469,7 @@ namespace WebshopAPI
         public bool AddBookToCategory(int adminId, int bookId, int categoryId)
         {
             bool isBookAddedToCategory = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -481,6 +492,7 @@ namespace WebshopAPI
             }
             return isBookAddedToCategory;
         }
+
         /// <summary>
         /// Updates category
         /// </summary>
@@ -492,7 +504,7 @@ namespace WebshopAPI
         {
             bool isCategoryUpdated = false;
 
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -511,6 +523,7 @@ namespace WebshopAPI
 
             return isCategoryUpdated;
         }
+
         /// <summary>
         /// Deletes category from table
         /// </summary>
@@ -520,7 +533,7 @@ namespace WebshopAPI
         public bool DeleteCategory(int adminId, int categoryId)
         {
             bool isCategoryDeleted = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -541,8 +554,8 @@ namespace WebshopAPI
                 }
             }
             return isCategoryDeleted;
-         
         }
+
         /// <summary>
         /// Adds new user to database
         /// </summary>
@@ -553,7 +566,7 @@ namespace WebshopAPI
         public bool AddUser(int adminId, string name, string password)
         {
             bool isUserCreated = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -580,6 +593,7 @@ namespace WebshopAPI
         #endregion ADMIN
 
         #region ADV ADMIN
+
         /// <summary>
         /// Lists sold book(s)
         /// </summary>
@@ -588,12 +602,12 @@ namespace WebshopAPI
         public List<SoldBook> SoldItems(int adminId)
         {
             List<SoldBook> bookList = new List<SoldBook>();
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
                     SessionTimer.AdminSetSessionTimer(adminId);
-                    return db.SoldBooks?.OrderBy(n => n.Title).ToList();
+                    return db.SoldBooks?.OrderBy(n => n.PurchaseDate).ToList();
                 }
             }
             else
@@ -601,6 +615,7 @@ namespace WebshopAPI
                 return bookList;
             }
         }
+
         /// <summary>
         /// Calculates sum of price of sold book(s)
         /// </summary>
@@ -609,7 +624,7 @@ namespace WebshopAPI
         public int? MoneyEarned(int adminId)
         {
             int? earned = null;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -624,18 +639,24 @@ namespace WebshopAPI
                 return earned;
             }
         }
+
         /// <summary>
         /// Gets customer who bought most books
         /// </summary>
         /// <param name="adminId"></param>
         /// <returns>string</returns>
-        public string BestCostumer(int adminId)
+        public User BestCostumer(int adminId)
         {
-            string bestCostumer = "";
-            if (Security.AdminCheck(adminId))
+            User bestCostumer = new User();
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
+                    //Solution found at:https://stackoverflow.com/questions/2655759/how-to-get-the-most-common-value-in-an-int-array-c
+                    
+                    var costumer = db.SoldBooks.GroupBy(u => u.UserId).OrderByDescending(u => u.Count()).Select(u => u.Key).First();
+
+                    bestCostumer = db.Users?.FirstOrDefault(u => u.Id == costumer);
                     SessionTimer.AdminSetSessionTimer(adminId);
                     return bestCostumer;
                 }
@@ -645,6 +666,7 @@ namespace WebshopAPI
                 return bestCostumer;
             }
         }
+
         /// <summary>
         /// Gives user administrator privileges
         /// </summary>
@@ -654,7 +676,7 @@ namespace WebshopAPI
         public bool Promote(int adminId, int userId)
         {
             bool isPromoted = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -675,6 +697,7 @@ namespace WebshopAPI
 
             return isPromoted;
         }
+
         /// <summary>
         /// Revokes user's administrator privileges
         /// </summary>
@@ -684,7 +707,7 @@ namespace WebshopAPI
         public bool Demote(int adminId, int userId)
         {
             bool isDemoted = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -704,6 +727,7 @@ namespace WebshopAPI
             }
             return isDemoted;
         }
+
         /// <summary>
         /// Activates user
         /// </summary>
@@ -713,7 +737,7 @@ namespace WebshopAPI
         public bool ActivateUser(int adminId, int userId)
         {
             bool isActivated = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -733,6 +757,7 @@ namespace WebshopAPI
             }
             return isActivated;
         }
+
         /// <summary>
         /// Inactivates user
         /// </summary>
@@ -742,7 +767,7 @@ namespace WebshopAPI
         public bool InactivateUser(int adminId, int userId)
         {
             bool isInactivated = false;
-            if (Security.AdminCheck(adminId))
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
