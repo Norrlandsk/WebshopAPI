@@ -320,6 +320,11 @@ namespace WebshopAPI.Utils
                 }
             }
         }
+
+        #endregion MENU
+
+        #region READER
+
         /// <summary>
         /// Prints property values of Book object
         /// </summary>
@@ -328,11 +333,10 @@ namespace WebshopAPI.Utils
         {
             if (book != null)
             {
-            Console.WriteLine(book.Title);
-            Console.WriteLine(book.Author);
-            Console.WriteLine(book.Price);
-            Console.WriteLine(book.CategoryId);
-
+                Console.WriteLine(book.Title);
+                Console.WriteLine(book.Author);
+                Console.WriteLine(book.Price);
+                Console.WriteLine(book.CategoryId);
             }
         }
 
@@ -344,10 +348,6 @@ namespace WebshopAPI.Utils
         {
             Console.WriteLine(user.Name);
         }
-
-        #endregion MENU
-
-        #region READER
 
         /// <summary>
         /// Prints value of bool for test purposes
@@ -444,15 +444,6 @@ namespace WebshopAPI.Utils
         /// </summary>
         /// <param name="value"></param>
         private static void Reader(int? value)
-        {
-            Console.WriteLine(value);
-        }
-
-        /// <summary>
-        /// Prints string value
-        /// </summary>
-        /// <param name="value"></param>
-        private static void Reader(string value)
         {
             Console.WriteLine(value);
         }

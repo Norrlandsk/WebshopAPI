@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Linq;
 using WebshopAPI.Database;
-using System.Linq;
 
 namespace WebshopAPI.Utils
 {
@@ -16,7 +13,6 @@ namespace WebshopAPI.Utils
         /// </summary>
         public static void Seeder()
         {
-            
             using (var db = new EFContext())
             {
                 if (!db.Users.Any())
@@ -27,14 +23,14 @@ namespace WebshopAPI.Utils
                         Password = "Codicrulez",
                         IsAdmin = true,
                         IsActive = true
-                    }) ;
+                    });
                     db.Users.Add(new Models.User
                     {
                         Name = "TestCostumer",
                         Password = "Codic2021",
                         IsAdmin = false,
                         IsActive = true
-                    }) ;
+                    });
                     db.SaveChanges();
                 }
                 if (!db.BookCategories.Any())
@@ -95,10 +91,9 @@ namespace WebshopAPI.Utils
                         Amount = 4,
                         CategoryId = getBookCategory4.Id
                     });
-                db.SaveChanges();
+                    db.SaveChanges();
                 }
             }
         }
-
     }
 }

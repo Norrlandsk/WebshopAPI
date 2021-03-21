@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebshopAPI.Database;
@@ -9,7 +8,7 @@ using WebshopAPI.Utils;
 namespace WebshopAPI
 {
     /// <summary>
-    ///
+    /// Webshop API, facade class containing back-end functions for webshop applications. Contains costumer functions and administrator functions
     /// </summary>
     internal class WebshopAPI
     {
@@ -117,9 +116,7 @@ namespace WebshopAPI
         {
             using (var db = new EFContext())
             {
-                
-               return (Book)(db.Books?.FirstOrDefault(b => b.Id == bookId));
-                
+                return (Book)(db.Books?.FirstOrDefault(b => b.Id == bookId));
             }
         }
 
@@ -212,6 +209,7 @@ namespace WebshopAPI
                     user.SessionTimer = DateTime.Now;
                 }
             }
+
             return ping;
         }
 
@@ -257,7 +255,7 @@ namespace WebshopAPI
         public bool AddBook(int adminId, int id, string title, string author, int price, int amount)
         {
             bool isBookAdded = false;
-            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId)==false)
+            if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
             {
                 using (var db = new EFContext())
                 {
@@ -653,7 +651,7 @@ namespace WebshopAPI
                 using (var db = new EFContext())
                 {
                     //Solution found at:https://stackoverflow.com/questions/2655759/how-to-get-the-most-common-value-in-an-int-array-c
-                    
+
                     var costumer = db.SoldBooks.GroupBy(u => u.UserId).OrderByDescending(u => u.Count()).Select(u => u.Key).First();
 
                     bestCostumer = db.Users?.FirstOrDefault(u => u.Id == costumer);

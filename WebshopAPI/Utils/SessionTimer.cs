@@ -64,7 +64,11 @@ namespace WebshopAPI.Utils
                 admin.SessionTimer = SetSessionTimer(admin.Id);
             }
         }
-
+        /// <summary>
+        /// Controls if administrator's session timer have reached its limit
+        /// </summary>
+        /// <param name="adminId"></param>
+        /// <returns>bool</returns>
         public static bool AdminCheckSessionTimer(int adminId)
         {
             bool isSessionLimitReached = false;
@@ -73,7 +77,7 @@ namespace WebshopAPI.Utils
                 var admin = db.Users?.FirstOrDefault(u => u.Id == adminId);
                 if (admin != null)
                 {
-                    DateTime sessionLimit = admin.SessionTimer.AddMinutes(1);
+                    DateTime sessionLimit = admin.SessionTimer.AddMinutes(15);
                     DateTime sessionCompare = DateTime.Now;
 
                     var res = DateTime.Compare(sessionCompare, sessionLimit);

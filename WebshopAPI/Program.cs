@@ -13,7 +13,6 @@ namespace WebshopAPI
         /// <param name="args"></param>
         private static void Main(string[] args)
         {
-            
             Startup.InitialiseDatabase();
             Startup.InitialiseSeed();
             DevTools.Menu();
