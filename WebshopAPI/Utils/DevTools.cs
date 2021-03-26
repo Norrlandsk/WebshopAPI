@@ -14,7 +14,7 @@ namespace WebshopAPI.Utils
         /// <summary>
         /// WebshopAPI object for use in menu switch
         /// </summary>
-        private static WebshopAPI api = new WebshopAPI();
+        private static API api = new API();
 
         /// <summary>
         /// Prints menu to console, switch for choosing menu alternative.

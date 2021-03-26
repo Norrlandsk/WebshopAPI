@@ -10,7 +10,7 @@ namespace WebshopAPI
     /// <summary>
     /// Webshop API, facade class containing back-end functions for webshop applications. Contains costumer functions and administrator functions
     /// </summary>
-    internal class WebshopAPI
+    public class API
     {
         #region USER
 
