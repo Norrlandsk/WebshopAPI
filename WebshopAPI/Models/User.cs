@@ -24,5 +24,7 @@ namespace WebshopAPI.Models
         public bool IsActive { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using WebshopAPI.Utils;
+﻿using WebshopAPI.Models;
+using WebshopAPI.Utils;
 
 namespace WebshopAPI
 {
@@ -7,6 +8,11 @@ namespace WebshopAPI
     /// </summary>
     public static class Startup
     {
+        /// <summary>
+        /// Used like a session cookie for keeping track of logged in user
+        /// </summary>
+        public static User sessionCookie = new User();
+
         /// <summary>
         /// Sets up Seeder for use in Main()
         /// </summary>

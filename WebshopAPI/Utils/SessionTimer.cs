@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using WebshopAPI.Database;
+using WebshopAPI.Models;
 
 namespace WebshopAPI.Utils
 {
@@ -47,6 +48,7 @@ namespace WebshopAPI.Utils
 
             if (res >= 0)
             {
+                
                 isSessionLimitReached = true;
             }
             return isSessionLimitReached;

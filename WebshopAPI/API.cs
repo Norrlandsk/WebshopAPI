@@ -31,6 +31,7 @@ namespace WebshopAPI
                     user.LastLogin = user.SessionTimer;
                     db.Update(user);
                     db.SaveChanges();
+                    Startup.sessionCookie = user;
 
                     return user.Id;
                 }
@@ -52,12 +53,13 @@ namespace WebshopAPI
                     user.SessionTimer = DateTime.MinValue;
                     db.Update(user);
                     db.SaveChanges();
+                    Startup.sessionCookie = user;
                 }
             }
         }
 
         /// <summary>
-        /// Gets query result of book category(s).
+        /// Gets query result of book category(s)
         /// </summary>
         /// <returns>List<BookCategory></returns>
         public List<BookCategory> GetCategories()
@@ -179,10 +181,12 @@ namespace WebshopAPI
 
                             db.Update(book);
                             db.Update(soldBook);
-                            db.SaveChanges();
                             Ping(userId);
                             isPurchaseSuccessful = true;
                             user.SessionTimer = SessionTimer.SetSessionTimer(user.Id);
+                            Startup.sessionCookie = user;
+                            db.Update(user);
+                            db.SaveChanges();
                         }
                     }
                 }
@@ -207,6 +211,9 @@ namespace WebshopAPI
                 {
                     ping = "Pong";
                     user.SessionTimer = DateTime.Now;
+                    db.Update(user);
+                    db.SaveChanges();
+                    Startup.sessionCookie = user;
                 }
             }
 
@@ -236,6 +243,19 @@ namespace WebshopAPI
                 }
             }
             return isUserCreated;
+        }
+
+        /// <summary>
+        /// ADDENDUM
+        /// Retrieves all books in database
+        /// </summary>
+        /// <returns>Book List</returns>
+        public List<Book> GetAllBooks()
+        {
+            using (var db = new EFContext())
+            {
+                return db.Books?.OrderBy(n => n.Title).ToList();
+            }
         }
 
         #endregion USER
