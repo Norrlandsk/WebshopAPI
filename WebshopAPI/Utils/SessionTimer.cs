@@ -48,7 +48,6 @@ namespace WebshopAPI.Utils
 
             if (res >= 0)
             {
-                
                 isSessionLimitReached = true;
             }
             return isSessionLimitReached;

@@ -200,7 +200,7 @@ namespace WebshopAPI
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>string</returns>
-        public static string Ping(int userId)
+        public string Ping(int userId)
         {
             var ping = string.Empty;
 
