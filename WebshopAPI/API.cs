@@ -303,12 +303,13 @@ namespace WebshopAPI
 
         /// <summary>
         /// Sets amount of book
+        /// ADDENDUM: Added return value int amount
         /// </summary>
         /// <param name="adminId"></param>
         /// <param name="bookId"></param>
         /// <param name="amount"></param>
-        /// <returns>bool</returns>
-        public bool SetAmount(int adminId, int bookId, int amount)
+        /// <returns>Tuple (bool, int)</returns>
+        public (bool isAmountSet, int amount) SetAmount(int adminId, int bookId, int amount)
         {
             bool isAmountSet = false;
             if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)
@@ -326,7 +327,7 @@ namespace WebshopAPI
                     }
                 }
             }
-            return isAmountSet;
+            return (isAmountSet,amount);
         }
 
         /// <summary>

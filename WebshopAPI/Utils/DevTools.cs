@@ -163,7 +163,8 @@ namespace WebshopAPI.Utils
                         Console.Write("Amount:");
                         var amountSetAmount = Convert.ToInt32(Console.ReadLine());
 
-                        BoolCheck(api.SetAmount(adminSetAmount, bookSetAmount, amountSetAmount));
+                        var result = (api.SetAmount(adminSetAmount, bookSetAmount, amountSetAmount));
+                        BoolCheck(result.isAmountSet);
                         break;
 
                     case 14:
