@@ -181,7 +181,6 @@ namespace WebshopAPI
 
                             db.Update(book);
                             db.Update(soldBook);
-                            Ping(userId);
                             isPurchaseSuccessful = true;
                             user.SessionTimer = SessionTimer.SetSessionTimer(user.Id);
                             Startup.sessionCookie = user;
@@ -272,7 +271,7 @@ namespace WebshopAPI
         /// <param name="price"></param>
         /// <param name="amount"></param>
         /// <returns>bool</returns>
-        public bool AddBook(int adminId, int id, string title, string author, int price, int amount)
+        public bool AddBook(int adminId, string title, string author, int price, int amount)
         {
             bool isBookAdded = false;
             if (Security.AdminCheck(adminId) && SessionTimer.AdminCheckSessionTimer(adminId) == false)

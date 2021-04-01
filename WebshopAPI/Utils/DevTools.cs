@@ -143,8 +143,6 @@ namespace WebshopAPI.Utils
                     case 12:
                         Console.Write("Admin Id:");
                         int.TryParse(Console.ReadLine(), out var adminAddBook);
-                        Console.Write("Book Id:");
-                        int.TryParse(Console.ReadLine(), out var idAdbook);
                         Console.Write("Title:");
                         var titleAddBook = Console.ReadLine();
                         Console.Write("Author:");
@@ -154,7 +152,7 @@ namespace WebshopAPI.Utils
                         Console.Write("Amount:");
                         int.TryParse(Console.ReadLine(), out var amountAddBook);
 
-                        BoolCheck(api.AddBook(adminAddBook, idAdbook, titleAddBook, authorAddBook, priceAddBook, amountAddBook));
+                        BoolCheck(api.AddBook(adminAddBook, titleAddBook, authorAddBook, priceAddBook, amountAddBook));
                         break;
 
                     case 13:
